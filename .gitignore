@@ -1,0 +1,102 @@
+# --- Claude Code multi-agent harness (local-only, never push) ---
+.claude/
+CLAUDE.md
+MEMORY.md
+*.claude-log.md
+# The harness source repo is cloned in-tree and has its own git remote.
+claude-harness/
+# --- end harness ---
+
+# --- Secrets — API keys live here and must never be committed ---
+.env
+.env.*
+!.env.example
+.secrets/
+*.pem
+*.key
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.so
+build/
+dist/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# --- Virtual environments (uv) ---
+.venv/
+venv/
+# uv.lock IS committed on purpose — it pins the exact dependency set.
+
+# --- Data — never push datasets ---
+data/
+datasets/
+raw/
+processed/
+# Medical / volumetric imaging
+*.nii
+*.nii.gz
+*.dcm
+*.dicom
+*.mha
+*.mhd
+*.nrrd
+*.vtk
+*.vti
+# Array + tabular dumps
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.mat
+*.parquet
+*.feather
+*.lmdb
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# --- Model weights & checkpoints — never push ---
+checkpoints/
+ckpt/
+ckpts/
+weights/
+pretrained/
+# NOTE: models/ is deliberately NOT ignored — it usually holds model *code*.
+#       Weight files placed inside it are caught by the extensions below.
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.pb
+*.tflite
+*.bin
+*.pkl
+*.pickle
+*.joblib
+
+# --- Experiment tracking / run outputs ---
+runs/
+outputs/
+wandb/
+mlruns/
+lightning_logs/
+tensorboard/
+events.out.tfevents.*
+*.log
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
