@@ -1,0 +1,35 @@
+# VascuTrace P6 v3 — improvement round 1 (research-grounded).
+# Research prototype. Trained/evaluated on simulated vascular-like abnormalities,
+# not confirmed human post-angioplasty lesions.
+#
+# Changes vs v1/v2 (from the literature study + honest eval baseline):
+#  - loss: combo = Focal-Tversky (FN-weighted alpha=0.7) + BCE  (combat under-seg + collapse)
+#  - selection_metric: dice_x_clean (positive-only Dice x healthy-clean rate; NOT blended Dice)
+#  - lr_schedule: cosine with warmup  (safe now that selection can't reward collapse)
+#  - longer training (selection is collapse-proof, so patience can be generous)
+
+train_cache_dir: data/processed/p6_cache/train
+val_cache_dir: data/processed/p6_cache/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: combo
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 32
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 40
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+model_config: {}
+dataset_config: {}

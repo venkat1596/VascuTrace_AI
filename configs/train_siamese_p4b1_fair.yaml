@@ -1,0 +1,77 @@
+# VascuTrace Phase 4 B1-fair -- same stronger aug (0.20/15/10) but fair budget (early_stop_patience 40->150) to close the dice_x_clean early-stop confound. Selectors capture best legal-IoU epoch.
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. Separate from the controlled boundary
+# experiment family. Parsed settings equal v5exp plus the HNM
+# block below. Hard samples receive weight 3 while positives and easy negatives
+# retain weight 1, so this sampler increases total negative class mass; it is
+# not class-mass preserving. Report clean and activation rates separately.
+
+train_cache_dir: data/processed/p6_cache_big/train
+val_cache_dir: data/processed/p6_cache_big/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: combo
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 150
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Carried over unchanged from v5exp (anti-saturation / anti-overfit) ---
+augment: true
+augment_rotation_deg: 15.0
+augment_translate_px: 10.0
+augment_scale_delta: 0.20
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+# --- This run's own subject: online hard-negative mining ---
+# (train.py module docstring, item 16). Requires train_cache_dir (set
+# above) -- the mechanism needs CachedSampleDataset's stable index
+# addressing and known positive/negative split point.
+hard_negative_mining: true
+# Top fraction of OBSERVED negative training samples (ranked by the historical
+# score-space false-activation surrogate, capped at -log(1e-6) per pixel,
+# then accumulated as a per-sample EMA) treated as "hard" each epoch.
+hard_negative_fraction: 0.35
+# Sampling-weight multiplier applied to hard negatives (vs. weight 1.0 for
+# every easy negative AND every positive) when building each mining epoch's
+# WeightedRandomSampler.
+hard_negative_oversample_weight: 3.0
+# Epoch 0 is ALWAYS uniform (no scores exist yet); this many total epochs
+# stay uniform before mining activates (floor is max(1, this value)).
+hard_negative_warmup_epochs: 1
+# EMA momentum for the per-index false-activation score (Polyak-averaging,
+# same idea as ema_decay above, applied to a scalar per training index).
+hard_negative_score_momentum: 0.5
+
+model_config: {}
+dataset_config: {}
+
+# --- Track A2: constrained-floor IoU checkpoint selector (path-to-0.70 plan) ---
+# Saves best_constrained_iou.pt = max mean_positive_iou among epochs passing the
+# legality floors, so this run captures its best LEGAL IoU epoch (closes the
+# Phase-4 dice_x_clean early-stop confound). Report-only floors; primary early-stop unchanged.
+constrained_iou_selection: true
+constrained_iou_min_precision: 0.901
+constrained_iou_min_f1: 0.859
+constrained_iou_min_clean: 0.0

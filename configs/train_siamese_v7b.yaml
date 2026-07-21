@@ -1,0 +1,63 @@
+# VascuTrace P6 v7b -- exploratory soft-target-supervision follow-up to v6exp.
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. Separate from the controlled boundary
+# experiment family. At the parsed-YAML level, this config equals
+# v6exp except for the two soft-cache paths, loss=soft_combo, and
+# soft_target=true. source_fraction is training-only simulator geometry;
+# validation and reporting remain hard-mask-only. Saved candidates are limited
+# to raw/EMA primary-best, secondary-best, and last; logs cannot reconstruct
+# arbitrary epoch weights. This config makes no outcome claim and does not
+# authorize a GPU run.
+
+train_cache_dir: data/processed/p6_cache_big_soft/train
+val_cache_dir: data/processed/p6_cache_big_soft/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: soft_combo
+soft_target: true
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 40
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Carried over unchanged from v5exp/v6exp (anti-saturation / anti-overfit) ---
+augment: true
+augment_rotation_deg: 10.0
+augment_translate_px: 6.0
+augment_scale_delta: 0.10
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+# --- Parsed settings carried over from v6exp -- online hard-negative mining ---
+# (train.py module docstring, item 16). These parsed values match v6exp; cache
+# and split fidelity must also be established before treating the comparison
+# as isolated. This retains v6's capped score-space ranking score;
+# stable logits-space BCE would be a separate mechanism change.
+hard_negative_mining: true
+hard_negative_fraction: 0.35
+hard_negative_oversample_weight: 3.0
+hard_negative_warmup_epochs: 1
+hard_negative_score_momentum: 0.5
+
+model_config: {}
+dataset_config: {}

@@ -1,0 +1,463 @@
+{
+  "schema_version": "1.0",
+  "publication_date": "2026-07-20",
+  "title": "VascuTrace aggregate evidence ledger",
+  "scientific_warning": "Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.",
+  "evidence_policy": {
+    "allowed_claims": [
+      "Image-domain synthetic-source detectability in healthy-control PET/CT backgrounds",
+      "Deterministic quantification behavior",
+      "Activation on untouched healthy-control backgrounds",
+      "Implementation observations",
+      "Design decisions",
+      "Planned evaluation"
+    ],
+    "prohibited_claims": [
+      "Clinical diagnosis or prognosis",
+      "Clinical sensitivity or specificity",
+      "Arterial-wall ground truth",
+      "Scanner sensitivity",
+      "Patient-motion or attenuation-correction simulation",
+      "Treatment response or patient outcomes"
+    ],
+    "score_term": "abnormality_score",
+    "privacy": "Aggregate values only. No subject identifier, case row, local absolute path, medical image, credential, model weight, or private development record is included."
+  },
+  "primary_sources": [
+    {
+      "id": "SRC-QUADRA-ARTICLE",
+      "type": "primary dataset article",
+      "citation": "Gutschmayer et al., Scientific Data 12, 1707 (2025)",
+      "doi": "10.1038/s41597-025-05997-4",
+      "values": {
+        "subjects": 48,
+        "sessions_per_subject": 2,
+        "female": 25,
+        "male": 23,
+        "reported_age_range_years": [19, 59],
+        "reported_test_retest_interval_mean_days": 38,
+        "reported_test_retest_interval_sd_days": 10,
+        "reported_test_retest_interval_range_days": [22, 98],
+        "segmentation_software_version": "3.0.13"
+      },
+      "supports": "Test/retest design, PET and CT acquisition grids, segmentation software version, and NIfTI release description"
+    },
+    {
+      "id": "SRC-QUADRA-RECORD",
+      "type": "primary dataset record",
+      "citation": "QUADRA_HC, Zenodo record 16686025, version 1.1.1",
+      "doi": "10.5281/zenodo.16686025",
+      "archive_md5": "5b37cd936988a023c67fe8f85d634d41",
+      "values": {
+        "record_id": 16686025,
+        "version": "1.1.1",
+        "archive_size_gb": 20.2
+      },
+      "supports": "Current public archive identity, version, size, and checksum"
+    },
+    {
+      "id": "SRC-PORCINE",
+      "type": "primary motivating study",
+      "citation": "Nabavinia et al., Annals of Biomedical Engineering (2026)",
+      "doi": "10.1007/s10439-026-04141-6",
+      "values": {
+        "animal_count": 8,
+        "post_intervention_days": 14
+      },
+      "supports": "Biological motivation from an eight-animal porcine femoral overdilation experiment at 14 days",
+      "limitation": "Does not support a human clinical claim or model-validation claim"
+    },
+    {
+      "id": "SRC-MOOSE",
+      "type": "official software documentation",
+      "citation": "ENHANCE-PET MOOSE model inventory",
+      "url": "https://github.com/ENHANCE-PET/MOOSE",
+      "values": {
+        "left_iliac_artery_label": 7,
+        "right_iliac_artery_label": 8
+      },
+      "supports": "Current clin_ct_cardiac inventory lists left and right iliac artery labels as 7 and 8",
+      "limitation": "The local archive does not embed enough version metadata to prove archive-era label semantics independently"
+    }
+  ],
+  "source_artifact_hashes": [
+    {
+      "label": "aggregate EDA note",
+      "sha256": "564530349ee89ad67bdf8c35972d75981c4bb2355f8021e55b0ac5c92196220c"
+    },
+    {
+      "label": "aggregate data-analysis report",
+      "sha256": "e668314cab741d79f51ee4e3570ed09fe6e127006eb40f8ee3975f6a6b33bfeb"
+    },
+    {
+      "label": "data-fitness note",
+      "sha256": "005aeb2728eabfa62953c1f2ca96075e48814e90f26ac6990b4baca4e4712ab8"
+    },
+    {
+      "label": "data-fitness arithmetic checks",
+      "sha256": "485f7ea05c908b78de086c18eed223cfdd29b6249e609f12aabf429b452c7cb9"
+    },
+    {
+      "label": "crop pipeline receipt",
+      "sha256": "a79724dd89520f6a23cbb7caea09073f47fb2b96bc3215f46cd1a68151142974"
+    },
+    {
+      "label": "B2 detectability atlas table",
+      "sha256": "c5432f92f6caf304328370f1ae8926d46b948f9831b66827a9579b610f156361"
+    },
+    {
+      "label": "B2 atlas arithmetic checks",
+      "sha256": "59ee9aa8360602d99efca8684146fe16162dbc6965c844793f9de5a5e6780f48"
+    },
+    {
+      "label": "B2 validation scoreboard",
+      "sha256": "95e75eca59c21ff26aee4c7333d84277369de7246ddc3cf965f692cce66118a1"
+    },
+    {
+      "label": "primary B2 training configuration",
+      "sha256": "8d7fd6e06d7103f829884b7bef705ab6e78d83cfd507fbaf13c0dd86294fb216"
+    }
+  ],
+  "records": [
+    {
+      "id": "EDA-001",
+      "class": "primary-source fact corroborated by historical aggregate audit",
+      "population": "QUADRA_HC release",
+      "independent_unit": "subject",
+      "values": {
+        "subjects": 48,
+        "female": 25,
+        "male": 23,
+        "sessions": 96,
+        "pet_volumes": 96,
+        "ct_volumes": 96,
+        "segmentation_volumes": 768,
+        "nifti_files": 960
+      },
+      "status": "observed historically and supported by current public source",
+      "limitation": "The publication turn did not reopen raw volumes"
+    },
+    {
+      "id": "EDA-002",
+      "class": "historical aggregate measurement",
+      "population": "48-subject demographics workbook",
+      "independent_unit": "subject",
+      "values": {
+        "age_mean_years": 37.69,
+        "age_sd_years": 13.71,
+        "age_range_years": [19, 65],
+        "test_bmi_mean_kg_m2": 24.11,
+        "test_bmi_sd_kg_m2": 3.17,
+        "test_bmi_range_kg_m2": [18.1, 31.2],
+        "missing_demographic_values": 0
+      },
+      "status": "historical aggregate receipt",
+      "limitation": "No population-representativeness inference is supported"
+    },
+    {
+      "id": "EDA-003",
+      "class": "historical aggregate measurement",
+      "population": "48 paired test/retest records",
+      "independent_unit": "subject pair",
+      "values": {
+        "interval_median_days": 35,
+        "interval_mean_days": 38.75,
+        "interval_range_days": [22, 98],
+        "test_injected_activity_mean_mbq": 109.03,
+        "retest_injected_activity_mean_mbq": 111.47
+      },
+      "status": "historical aggregate receipt",
+      "limitation": "Treating the workbook field Scan [d] as the inter-session interval is an inference because no data dictionary was verified"
+    },
+    {
+      "id": "EDA-004",
+      "class": "primary-source fact corroborated by historical header audit",
+      "population": "96 PET/CT sessions",
+      "independent_unit": "session",
+      "values": {
+        "pet_shape": [440, 440, 531],
+        "pet_spacing_mm": [1.65, 1.65, 2.0],
+        "ct_shape": [512, 512, 531],
+        "ct_spacing_mm": [1.523438, 1.523438, 2.0],
+        "storage_orientation": "LAS",
+        "pet_within_ct_sessions": "96/96",
+        "pet_to_ct_physical_volume_percent": 86.6331
+      },
+      "status": "historical aggregate receipt",
+      "limitation": "Valid headers and bounding-box overlap do not prove local anatomical alignment"
+    },
+    {
+      "id": "EDA-005",
+      "class": "historical deterministic sample",
+      "population": "PET sample from 12 subjects at both visits",
+      "independent_unit": "voxel sample clustered within subject and visit",
+      "values": {
+        "sampled_voxels": 1628736,
+        "median_suv": 0.0002,
+        "p95_suv": 0.671,
+        "p99_suv": 1.913,
+        "maximum_suv": 192.2,
+        "percent_above_suv_10": 0.0915
+      },
+      "status": "historical deterministic sample",
+      "limitation": "This is not a full-volume or vessel-corridor intensity distribution"
+    },
+    {
+      "id": "EDA-006",
+      "class": "historical deterministic sample",
+      "population": "CT sample from four subjects at both visits",
+      "independent_unit": "voxel sample clustered within subject and visit",
+      "values": {
+        "sampled_voxels": 544544,
+        "median_hu": -1001,
+        "p95_hu": 20,
+        "p99_hu": 139,
+        "maximum_hu": 2072
+      },
+      "status": "historical deterministic sample",
+      "limitation": "This is a corruption screen, not a tissue-specific distribution"
+    },
+    {
+      "id": "FIT-001",
+      "class": "historical aggregate measurement under provisional label semantics",
+      "population": "96 sessions",
+      "independent_unit": "session",
+      "values": {
+        "bilateral_iliac_presence": "96/96",
+        "left_iliac_median_voxels": 2844,
+        "left_iliac_range_voxels": [1169, 9405],
+        "right_iliac_median_voxels": 3371,
+        "right_iliac_range_voxels": [1107, 8355],
+        "left_single_component_sessions": "53/96",
+        "right_single_component_sessions": "72/96",
+        "bilateral_span_proxy_pass_sessions": "84/96"
+      },
+      "status": "provisional",
+      "limitation": "Current public label documentation corroborates codes 7 and 8, but archive-era label identity was not independently pinned from embedded metadata"
+    },
+    {
+      "id": "FIT-002",
+      "class": "historical aggregate measurement and engineering decision",
+      "population": "96-session corridor audit and six-session crop receipt",
+      "independent_unit": "session",
+      "values": {
+        "iliac_bbox_median_mm": [153.9, 57.9, 186.0],
+        "max_requirement_with_15mm_margin_voxels": [129, 70, 131],
+        "fixed_crop_voxels": [144, 80, 144],
+        "crop_receipt_sessions": 6,
+        "valid_coverage_min": 1.0,
+        "reflection_residual_range_mm": [2.1, 6.76],
+        "integrity_hashes_passed": "6/6"
+      },
+      "status": "historical aggregate receipt",
+      "limitation": "The fixed crop is an engineering headroom choice, and the current reflection method does not match the intended frozen method"
+    },
+    {
+      "id": "SIM-001",
+      "class": "current implementation observation",
+      "population": "synthetic-source generator",
+      "independent_unit": "generated source",
+      "values": {
+        "supersampling_factor": 5,
+        "radius_mm": [2, 6],
+        "length_mm": 45,
+        "uptake_multiplier": [1.2, 2.0],
+        "blur_fwhm_mm": [4, 8],
+        "heterogeneity_parameter": 0.15,
+        "binary_fraction_threshold": 0.5,
+        "pet_network_clip_suv": [0, 10],
+        "ct_network_clip_hu": [-1000, 1000]
+      },
+      "status": "implemented",
+      "limitation": "No acquisition-noise model is implemented, and stored CT-shift metadata was not applied in the standard training cache"
+    },
+    {
+      "id": "MODEL-001",
+      "class": "current implementation observation",
+      "population": "B2 model architecture",
+      "independent_unit": "center-slice sample",
+      "values": {
+        "pet_slices_per_branch": 5,
+        "ct_slices_per_branch": 5,
+        "difference_channels": 5,
+        "output_shape": [144, 80],
+        "deep_supervision_scales": [2, 4],
+        "deep_supervision_weights": [0.5, 0.25]
+      },
+      "status": "implemented",
+      "limitation": "The model output is a 2D center slice and its sigmoid value is uncalibrated"
+    },
+    {
+      "id": "MODEL-002",
+      "class": "historical aggregate exploratory validation result",
+      "population": "208 validation center slices from 13 bundles and seven subject clusters",
+      "independent_unit": "subject cluster",
+      "values": {
+        "positive_slices": 78,
+        "negative_slices": 130,
+        "target_overlap": "75/78",
+        "target_overlap_percent": 96.1538,
+        "positive_mean_iou": 0.614895,
+        "component_precision": 0.925926,
+        "component_f1": 0.943396,
+        "negative_activation": "37/130",
+        "negative_activation_percent": 28.4615,
+        "negative_clean": "93/130",
+        "negative_clean_percent": 71.5385,
+        "threshold": 0.5,
+        "minimum_component_size_pixels": 0
+      },
+      "status": "exploratory validation only",
+      "limitation": "Not a sealed test result, scan-level result, native 3D result, or clinical result"
+    },
+    {
+      "id": "MODEL-003",
+      "class": "historical aggregate exploratory comparison",
+      "population": "same exploratory validation cache",
+      "independent_unit": "subject cluster",
+      "values": {
+        "b0_mean_iou": 0.596842,
+        "b2_mean_iou": 0.614895,
+        "delta_iou": 0.0181,
+        "delta_iou_interval": [0.0039, 0.0317],
+        "b0_clean_rate": 0.692308,
+        "b2_clean_rate": 0.715385,
+        "delta_clean_rate": 0.0231
+      },
+      "status": "historical aggregate validation evidence",
+      "limitation": "The clean-rate interval included zero, and the comparison does not replace a promotion-compliant baseline evaluation"
+    },
+    {
+      "id": "ATLAS-001",
+      "class": "historical descriptive stratification",
+      "population": "78 positive validation center slices",
+      "independent_unit": "repeated center-slice observation clustered within seven subjects",
+      "values": {
+        "radius": {
+          "levels": ["low", "mid", "high"],
+          "n": [26, 26, 26],
+          "target_overlap_percent": [92.3, 100.0, 96.2],
+          "mean_iou": [0.461, 0.687, 0.697]
+        },
+        "uptake": {
+          "levels": ["low", "mid", "high"],
+          "n": [26, 26, 26],
+          "target_overlap_percent": [88.5, 100.0, 100.0],
+          "mean_iou": [0.5, 0.718, 0.627]
+        },
+        "blur": {
+          "levels": ["low", "mid", "high"],
+          "n": [26, 26, 26],
+          "target_overlap_percent": [100.0, 100.0, 88.5],
+          "mean_iou": [0.707, 0.623, 0.515]
+        },
+        "radius_by_uptake_mean_iou": [
+          [0.429, 0.473, 0.496],
+          [0.681, 0.772, 0.586],
+          [0.47, 0.781, 0.821]
+        ],
+        "radius_by_uptake_n": [
+          [12, 5, 9],
+          [6, 11, 9],
+          [8, 10, 8]
+        ]
+      },
+      "status": "descriptive exploratory validation",
+      "limitation": "Cells are small, observations repeat within subjects, and no unclustered inferential claim is made"
+    },
+    {
+      "id": "ATLAS-002",
+      "class": "historical descriptive stratification",
+      "population": "130 negative validation center slices",
+      "independent_unit": "repeated center-slice observation clustered within seven subjects",
+      "values": {
+        "derived_texture_proxy_levels": ["low", "mid", "high"],
+        "n": [62, 39, 29],
+        "activation_percent": [16.1, 23.1, 62.1]
+      },
+      "status": "descriptive exploratory validation",
+      "limitation": "The proxy is derived from raw PET texture, not simulated acquisition noise, and clustered confirmatory inference was not performed"
+    }
+  ],
+  "implementation_gaps": [
+    {
+      "id": "GAP-REFLECTION",
+      "current": "Per-slice iliac plus femur pairing with a plain mean normal and mean midpoint",
+      "intended": "Iliac-only, arc-length-paired centerlines with a robust mean normal and median offset"
+    },
+    {
+      "id": "GAP-SHIFT",
+      "current": "CT-shift metadata exists but was not applied in the standard cache and training path",
+      "intended": "Explicit CT-input-only registration stress with PET and labels fixed"
+    },
+    {
+      "id": "GAP-BASELINE",
+      "current": "Standalone threshold code lacks minimum physical component volume and uses a different positive-case component error definition",
+      "intended": "Validation-only threshold freeze with sham and untouched activation, physical component volume, and the frozen tie rules"
+    },
+    {
+      "id": "GAP-EVALUATION",
+      "current": "Exploratory 2D center-slice evaluation with 8-connectivity and best-IoU matching",
+      "intended": "Native-space 3D stitching, 26-connectivity, intersection matching, and 5000 subject-cluster bootstrap replicates"
+    },
+    {
+      "id": "GAP-PRODUCT",
+      "current": "Reference backend is the default; optional learned backend processes one cached validation slice; the 2D adapter computes raw target SUV only when valid and returns structured nulls with typed reasons for unavailable contralateral SUV, physical volume, and longitudinal extent",
+      "intended": "Complete scan processing with the standalone 3D quantifier, physical geometry, structured nulls, and uncalibrated abnormality_score terminology"
+    },
+    {
+      "id": "GAP-RETRIEVAL",
+      "current": "The default corpus builder reads only knowledge/research_corpus.json; audited documentation folders require explicit opt-in; the earlier local index remains excluded and no fresh public-corpus retrieval evaluation is reported",
+      "intended": "Rebuild and reevaluate an index over public sources only before reporting retrieval performance"
+    }
+  ],
+  "figure_provenance": [
+    {
+      "figure": "01_cohort_eda.png",
+      "kind": "aggregate values",
+      "records": ["EDA-001", "EDA-002"]
+    },
+    {
+      "figure": "02_test_retest_summary.png",
+      "kind": "aggregate values",
+      "records": ["EDA-003"]
+    },
+    {
+      "figure": "03_geometry_and_resampling.png",
+      "kind": "generated schematic with aggregate geometry labels",
+      "records": ["EDA-004", "FIT-002"]
+    },
+    {
+      "figure": "04_simulation_contract.png",
+      "kind": "fully synthetic schematic",
+      "records": ["SIM-001"]
+    },
+    {
+      "figure": "05_model_architecture.png",
+      "kind": "generated implementation schematic",
+      "records": ["MODEL-001"]
+    },
+    {
+      "figure": "06_detectability_atlas.png",
+      "kind": "aggregate validation values",
+      "records": ["MODEL-002", "MODEL-003", "ATLAS-001"]
+    },
+    {
+      "figure": "07_activation_by_noise_proxy.png",
+      "kind": "aggregate validation values",
+      "records": ["ATLAS-002"]
+    },
+    {
+      "figure": "08_end_to_end_pipeline.png",
+      "kind": "generated implementation and gap schematic",
+      "records": ["GAP-REFLECTION", "GAP-BASELINE", "GAP-EVALUATION", "GAP-PRODUCT", "GAP-RETRIEVAL"]
+    }
+  ],
+  "mandatory_limitations": [
+    "Older archive provenance values were superseded by the current primary dataset record.",
+    "Local label-code semantics remain provisional.",
+    "The crop reflection, threshold baseline, evaluator, and product quantification paths do not fully match the intended scientific contract.",
+    "No sealed native-space 3D test result exists.",
+    "Historical aggregate receipts were not rerun against raw medical volumes during this publication turn."
+  ]
+}

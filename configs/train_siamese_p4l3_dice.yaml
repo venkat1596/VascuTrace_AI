@@ -1,0 +1,80 @@
+# VascuTrace Phase 4 area-loss lever -- area-focused Tversky FN/FP rebalance.
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. This config exists to test exactly ONE
+# knob against v6exp: the shipped "combo" loss's Tversky FN/FP balance
+# (train.py's TrainConfig.tversky_fn_weight/tversky_fp_weight, module
+# docstring item 19). v6exp's default (0.7/0.3, Abraham & Khan 2019's
+# reported operating point) penalizes missed-lesion voxels (FN,
+# under-segmentation) more than over-eager ones (FP) -- but this project's
+# own L0 error-taxonomy work found the v6 IoU gap AREA-dominated, with
+# over-segmentation the largest bucket, i.e. the opposite failure the
+# shipped default was tuned against. This config sets
+# tversky_fn_weight: 0.5 / tversky_fp_weight: 0.5 -- the SYMMETRIC
+# (Dice-equivalent -- losses.py's own alpha=beta=0.5 recovers plain Dice
+# from the Tversky index) choice, the overlap/IoU-aligned operating point,
+# and nothing else. Every other setting below (hard cache p6_cache_big,
+# loss: combo, HNM on, seeds, augmentation, EMA, batch size, selection
+# metric) is byte-for-byte identical to train_siamese_v6exp.yaml.
+
+train_cache_dir: data/processed/p6_cache_big/train
+val_cache_dir: data/processed/p6_cache_big/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: combo
+tversky_fn_weight: 0.5
+tversky_fp_weight: 0.5
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 40
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Carried over unchanged from v5exp/v6exp (anti-saturation / anti-overfit) ---
+augment: true
+augment_rotation_deg: 10.0
+augment_translate_px: 6.0
+augment_scale_delta: 0.10
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+# --- Carried over unchanged from v6exp: online hard-negative mining ---
+# (train.py module docstring, item 16). Requires train_cache_dir (set
+# above) -- the mechanism needs CachedSampleDataset's stable index
+# addressing and known positive/negative split point.
+hard_negative_mining: true
+# Top fraction of OBSERVED negative training samples (ranked by the historical
+# score-space false-activation surrogate, capped at -log(1e-6) per pixel,
+# then accumulated as a per-sample EMA) treated as "hard" each epoch.
+hard_negative_fraction: 0.35
+# Sampling-weight multiplier applied to hard negatives (vs. weight 1.0 for
+# every easy negative AND every positive) when building each mining epoch's
+# WeightedRandomSampler.
+hard_negative_oversample_weight: 3.0
+# Epoch 0 is ALWAYS uniform (no scores exist yet); this many total epochs
+# stay uniform before mining activates (floor is max(1, this value)).
+hard_negative_warmup_epochs: 1
+# EMA momentum for the per-index false-activation score (Polyak-averaging,
+# same idea as ema_decay above, applied to a scalar per training index).
+hard_negative_score_momentum: 0.5
+
+model_config: {}
+dataset_config: {}

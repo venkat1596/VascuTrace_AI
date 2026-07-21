@@ -1,0 +1,47 @@
+# VascuTrace P6 v5exp -- exploratory training-mechanism bundle.
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. Separate from the controlled boundary
+# experiment family. This config changes augmentation, EMA,
+# batch size, and secondary checkpoint tracking as one package; it cannot
+# isolate a causal effect for any one lever. Validation remains hard-mask-only.
+
+train_cache_dir: data/processed/p6_cache_big/train
+val_cache_dir: data/processed/p6_cache_big/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: combo
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 40
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Anti-saturation / anti-overfit levers (this run's own subject) ---
+augment: true
+augment_rotation_deg: 10.0
+augment_translate_px: 6.0
+augment_scale_delta: 0.10
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+model_config: {}
+dataset_config: {}

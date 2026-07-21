@@ -1,0 +1,34 @@
+[
+  {
+    "document_id": "quadra_hc_descriptor_2025",
+    "title": "QUADRA_HC: A whole-body dataset of paired low-dose CT and FDG PET scans",
+    "source_url": "https://doi.org/10.1038/s41597-025-05997-4",
+    "published_year": 2025,
+    "license": "CC BY 4.0",
+    "text": "QUADRA_HC contains paired test and retest whole-body FDG PET and low-dose CT acquisitions from healthy adults. It supports methodological research and repeatability analysis; a healthy cohort alone does not establish diagnostic performance for vascular disease."
+  },
+  {
+    "document_id": "eanm_fdg_pet_guideline_2015",
+    "title": "EANM procedure guidelines for tumour imaging with FDG PET/CT: version 2.0",
+    "source_url": "https://doi.org/10.1007/s00259-014-2961-x",
+    "published_year": 2015,
+    "license": "Open access",
+    "text": "Standardized uptake values are influenced by acquisition, reconstruction, uptake time, body-size normalization, and region definition. Quantitative comparisons require consistent methodology and quality control."
+  },
+  {
+    "document_id": "soret_partial_volume_2007",
+    "title": "Partial-volume effect in PET tumor imaging",
+    "source_url": "https://doi.org/10.2967/jnumed.106.035774",
+    "published_year": 2007,
+    "license": "Publisher terms",
+    "text": "Limited PET spatial resolution causes measured activity in small structures to differ from true activity. Partial-volume effects depend on lesion size, shape, contrast, and surrounding background and can bias uptake quantification."
+  },
+  {
+    "document_id": "blodgett_pet_ct_misregistration_2005",
+    "title": "PET/CT artifacts",
+    "source_url": "https://doi.org/10.1016/j.clinimag.2004.10.001",
+    "published_year": 2005,
+    "license": "Publisher terms",
+    "text": "Spatial mismatch between PET and CT can create localization and attenuation-correction artifacts. Registration quality should be reviewed when interpreting fused images or measurements derived from small targets."
+  }
+]
