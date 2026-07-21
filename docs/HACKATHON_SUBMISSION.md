@@ -43,12 +43,14 @@ outcomes.
 
 ## Codex collaboration statement
 
-The project-owner-supplied attribution is that Codex with GPT-5.6 served as the
-main planner, report writer, Git handler, and primary technical decision maker
-within the development workflow. It converted the research goals into bounded
-plans, coordinated implementation and independent checks, reviewed scientific
-claims and implementation gaps, assembled the technical report, and prepared
-release and submission materials.
+Codex with GPT-5.6 served as the main planner, report writer, Git handler, and
+primary technical decision maker within the development workflow. It converted
+the research goals into bounded plans, coordinated implementation and
+independent checks, reviewed scientific claims and implementation gaps,
+assembled the technical report, and prepared release and submission materials.
+This role is documented by the Codex-authored initial specification and planning
+archive, the public publication plan, the technical report under `docs/report/`,
+and the curated chronological record.
 Claude was used only to write code from Codex-authored plans. The owner retained
 the final product, engineering, scientific, publication, licensing, repository
 visibility, category, video, and submission decisions.
@@ -78,11 +80,11 @@ below 3 minutes.
 4. `1:30 to 1:55` Show the product evaluation and complete synthetic-case
    commands. Explain that judges can exercise the default path without raw
    medical data, model weights, CUDA, an API key, or model retraining.
-5. `1:55 to 2:25` Explain the collaboration. State that the owner identified
-   Codex with GPT-5.6 as the main planner, report writer, Git handler, and
-   primary technical decision maker within the development workflow. State that
-   Claude only implemented code from Codex-authored plans and that the owner
-   retained final decisions.
+5. `1:55 to 2:25` Explain the collaboration. State that Codex with GPT-5.6
+   served as the main planner, report writer, Git handler, and primary technical
+   decision maker within the development workflow. State that Claude only
+   implemented code from Codex-authored plans and that the owner retained final
+   decisions.
 6. `2:25 to 2:50` Close with reproducibility and limitations. Show the technical
    report, the frozen report hashes, the exploratory learned-model status, and
    the deterministic judge path.

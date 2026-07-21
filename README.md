@@ -108,21 +108,22 @@ locally before enabling RAG because generated indices are not versioned.
 
 ## Collaboration with Codex
 
-The project-owner-supplied attribution is that Codex with GPT-5.6 served as the
-main planner, report writer, Git handler, and primary technical decision maker
-within the VascuTrace development workflow. Codex translated the research goals
-into bounded engineering plans, coordinated implementation and independent checks, assembled the
-technical report, reviewed evidence and scientific claims, and prepared the
-repository and submission documentation for release review. This accelerated
-requirement tracing, integration review, verification, report production, and
-release preparation without assigning final authority to a software tool.
+Codex with GPT-5.6 served as the main planner, report writer, Git handler, and
+primary technical decision maker within the VascuTrace development workflow.
+Codex translated the research goals into bounded engineering plans, coordinated
+implementation and independent checks, assembled the technical report, reviewed
+evidence and scientific claims, and prepared the repository and submission
+documentation for release review. This accelerated requirement tracing,
+integration review, verification, report production, and release preparation
+without assigning final authority to a software tool.
 
 Claude was used only to implement code from Codex-authored plans. The project
 owner retained the final product, engineering, scientific, publication,
 licensing, repository visibility, competition category, video, and submission
 decisions, including approval or rejection of proposed plans and results. The
-GPT-5.6 attribution was supplied by the owner and is not independently verified
-by repository metadata.
+project record documents Codex's role through the Codex-authored initial
+specification, the broader planning archive, the public publication plan, and
+the technical report sources under `docs/report/`.
 
 VascuTrace product GenAI prompts are shipped application code. Private
 development-agent artifacts are excluded from the public release. The

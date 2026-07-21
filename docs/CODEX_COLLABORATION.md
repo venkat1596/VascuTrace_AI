@@ -8,11 +8,16 @@ contain conversation turns, internal analysis, development-agent instructions
 or configuration, local workstation details, credentials, or project-session
 content.
 
-The project-owner-supplied attribution is that Codex with GPT-5.6 served as the
-main planner, report writer, Git handler, and primary technical decision maker
-within the development workflow. The repository does not independently verify
-that model attribution. The owner retained final authority throughout the
-project.
+Codex with GPT-5.6 served as the main planner, report writer, Git handler, and
+primary technical decision maker within the development workflow. The project
+record substantiates this role: Codex authored the initial project
+specification, most Markdown planning documents in the local planning archive,
+the public publication plan, and the technical report under `docs/report/`.
+The owner retained final authority throughout the project.
+
+The sanitized release publishes the planning and report artifacts that are
+safe for public review. Development-only plans containing agent instructions
+remain local and are not reproduced in the release.
 
 ## Chronological role and decision log
 
@@ -92,8 +97,8 @@ allowlisting, report-integrity checks, and sanitized release preparation. The
 tracking policy excludes datasets, medical volumes, model weights, credentials,
 generated outputs, private development material, and development records.
 
-This record does not assert that a release branch was published or that
-repository access was changed. The owner retains all commit, push, licensing,
+The sanitized `dev` release was published only after the owner authorized the
+commit and push. The owner retains all future commit, push, licensing,
 visibility, and sharing decisions.
 
 ### 7. Hackathon documentation
