@@ -547,30 +547,68 @@ def _exact_voxel_remap(
     round trip bit-for-bit. Cross-validated against nibabel's own
     ``apply_orientation`` during development (see module docstring,
     section 2).
+
+    Implemented as an axis transpose plus per-axis flip, NOT a dense
+    per-voxel index gather. The mapping is (by contract) an exact signed
+    permutation with an integer translation, so ``output[o] = source[A @ o
+    + t]`` is exactly ``source`` transposed by the permutation and reversed
+    on the negatively-signed axes -- bit-for-bit identical to the former
+    ``map_coordinates``-style gather (proven by
+    ``test_exact_voxel_remap_matches_dense_gather``) but using O(one
+    output-sized copy) memory instead of allocating several whole-volume
+    float64 index grids. That gather peaked near ~14 GB when canonicalizing
+    a whole-body CT; the transpose/flip peak is ~one array copy.
     """
-    grids = np.meshgrid(
-        *[np.arange(n, dtype=np.float64) for n in output_shape], indexing="ij"
-    )
-    n_voxels = int(np.prod(output_shape))
-    output_index_h = np.stack(
-        [g.reshape(-1) for g in grids] + [np.ones(n_voxels, dtype=np.float64)], axis=0
-    )
-    input_index_h = (
-        np.asarray(input_voxel_from_output_voxel, dtype=np.float64) @ output_index_h
-    )
-    input_index_float = input_index_h[:3]
-    input_index_rounded = np.rint(input_index_float)
-    if not np.allclose(
-        input_index_float, input_index_rounded, atol=_VOXEL_REMAP_INTEGER_TOLERANCE
+    mapping = np.asarray(input_voxel_from_output_voxel, dtype=np.float64)
+    linear = mapping[:3, :3]
+    translation = mapping[:3, 3]
+
+    # Validate the contract -- an exact signed permutation with an integer
+    # translation that places each flip's origin correctly -- directly on the
+    # 4x4 mapping, with no per-voxel index array. A validated RAS+
+    # canonicalization mapping always satisfies this; a corrupted/foreign
+    # mapping fails closed here, exactly as the former per-voxel integer
+    # check did (INVALID_AFFINE), before any array data is touched.
+    input_axis_from_output = np.argmax(np.abs(linear), axis=1)
+    signs = np.sign(linear[np.arange(3), input_axis_from_output])
+    canonical_linear = np.zeros((3, 3), dtype=np.float64)
+    canonical_linear[np.arange(3), input_axis_from_output] = signs
+    source_shape = np.asarray(source.shape, dtype=np.float64)
+    # For a bijective in-bounds mapping, a reversed axis (sign < 0) carries an
+    # integer translation equal to that source axis's last index; a forward
+    # axis carries 0. Verifying this makes the transpose/flip provably equal
+    # to the former gather for every mapping the gather handled in bounds.
+    expected_translation = np.where(signs < 0.0, source_shape - 1.0, 0.0)
+    if (
+        sorted(int(a) for a in input_axis_from_output) != [0, 1, 2]
+        or not np.allclose(
+            linear, canonical_linear, atol=_VOXEL_REMAP_INTEGER_TOLERANCE
+        )
+        or not np.allclose(
+            translation, np.rint(translation), atol=_VOXEL_REMAP_INTEGER_TOLERANCE
+        )
+        or not np.allclose(
+            translation, expected_translation, atol=_VOXEL_REMAP_INTEGER_TOLERANCE
+        )
     ):
-        # Defensive only: a validated RAS+ canonicalization mapping is an
-        # exact signed permutation and can never produce a fractional
-        # index. This guards against a corrupted/foreign mapping being
-        # substituted for the real one.
         raise GeometryContractError(GeometryErrorCode.INVALID_AFFINE)
-    input_index = input_index_rounded.astype(np.int64)
-    remapped = source[input_index[0], input_index[1], input_index[2]]
-    return remapped.reshape(output_shape)
+
+    # Source axis ``j`` (row j) reads output axis ``input_axis_from_output[j]``
+    # with sign ``signs[j]``; a negative sign reverses source axis j. Flip
+    # first (views, no copy), then transpose so each output axis is fed by the
+    # source axis mapped to it (argsort inverts the permutation).
+    flipped = source
+    for source_axis in range(3):
+        if signs[source_axis] < 0.0:
+            flipped = np.flip(flipped, axis=source_axis)
+    output_axis_order = tuple(int(a) for a in np.argsort(input_axis_from_output))
+    remapped = np.transpose(flipped, axes=output_axis_order)
+    if remapped.shape != tuple(int(n) for n in output_shape):
+        # Defensive: a shape disagreement means the mapping did not describe
+        # this output grid; fail closed rather than return a wrong-shaped
+        # array.
+        raise GeometryContractError(GeometryErrorCode.INVALID_AFFINE)
+    return np.ascontiguousarray(remapped)
 
 
 # ---------------------------------------------------------------------------

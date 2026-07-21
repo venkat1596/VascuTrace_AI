@@ -38,6 +38,7 @@ from src.vascutrace.geometry import (
     GeometrySidecar,
     GridGeometry,
     SpatialArray,
+    _exact_voxel_remap,
     _grid_geometry_from_affine,
     canonicalize_nifti_to_ras,
     input_lps_from_output_lps,
@@ -423,6 +424,88 @@ def test_canonicalize_is_idempotent_on_an_already_ras_plus_grid() -> None:
         np.asarray(canonical.canonical_voxel_from_original_voxel), np.eye(4)
     )
     assert np.array_equal(np.asarray(canonical.data), np.asarray(img.dataobj))
+
+
+# ---------------------------------------------------------------------------
+# _exact_voxel_remap: memory-efficient transpose/flip == former dense gather
+# ---------------------------------------------------------------------------
+
+
+def _dense_gather_remap_reference(
+    source: np.ndarray,
+    output_shape: tuple[int, int, int],
+    input_voxel_from_output_voxel: np.ndarray,
+) -> np.ndarray:
+    """The former ``_exact_voxel_remap`` implementation, kept here verbatim as
+    the reference the memory-efficient transpose/flip version must match
+    bit-for-bit. Builds the full float64 per-voxel index grid and gathers.
+    """
+    grids = np.meshgrid(
+        *[np.arange(n, dtype=np.float64) for n in output_shape], indexing="ij"
+    )
+    n_voxels = int(np.prod(output_shape))
+    output_index_h = np.stack(
+        [g.reshape(-1) for g in grids] + [np.ones(n_voxels, dtype=np.float64)], axis=0
+    )
+    input_index_h = (
+        np.asarray(input_voxel_from_output_voxel, dtype=np.float64) @ output_index_h
+    )
+    input_index = np.rint(input_index_h[:3]).astype(np.int64)
+    remapped = source[input_index[0], input_index[1], input_index[2]]
+    return remapped.reshape(output_shape)
+
+
+def test_exact_voxel_remap_matches_dense_gather() -> None:
+    """The transpose/flip implementation is byte-identical to the former
+    dense-index gather across all 48 signed axis permutations, for a source
+    with three distinct dimensions (so any wrong axis/order/flip is caught).
+    """
+    import itertools
+
+    rng = np.random.default_rng(20260721)
+    src_shape = (4, 5, 6)
+    source = rng.integers(-7, 100, size=src_shape).astype(np.int16)
+
+    for perm in itertools.permutations(
+        range(3)
+    ):  # perm[j] = output axis of source axis j
+        for signs in itertools.product((1.0, -1.0), repeat=3):
+            linear = np.zeros((3, 3), dtype=np.float64)
+            output_shape = [0, 0, 0]
+            translation = np.zeros(3, dtype=np.float64)
+            for j in range(3):
+                linear[j, perm[j]] = signs[j]
+                output_shape[perm[j]] = src_shape[j]
+                translation[j] = (src_shape[j] - 1) if signs[j] < 0 else 0
+            mapping = np.eye(4, dtype=np.float64)
+            mapping[:3, :3] = linear
+            mapping[:3, 3] = translation
+            output_shape_t = (output_shape[0], output_shape[1], output_shape[2])
+
+            reference = _dense_gather_remap_reference(source, output_shape_t, mapping)
+            fast = _exact_voxel_remap(source, output_shape_t, mapping)
+
+            assert fast.shape == reference.shape == output_shape_t
+            assert fast.dtype == reference.dtype == source.dtype
+            assert np.array_equal(fast, reference), (perm, signs)
+
+
+def test_exact_voxel_remap_rejects_non_permutation_mapping() -> None:
+    source = np.zeros((4, 5, 6), dtype=np.int16)
+    fractional = np.eye(4, dtype=np.float64)
+    fractional[0, 0] = 0.5  # not a signed permutation entry
+    with pytest.raises(GeometryContractError) as excinfo:
+        _exact_voxel_remap(source, (4, 5, 6), fractional)
+    assert excinfo.value.code == GeometryErrorCode.INVALID_AFFINE
+
+
+def test_exact_voxel_remap_rejects_noninteger_translation() -> None:
+    source = np.zeros((4, 5, 6), dtype=np.int16)
+    shifted = np.eye(4, dtype=np.float64)
+    shifted[0, 3] = 0.5  # fractional translation
+    with pytest.raises(GeometryContractError) as excinfo:
+        _exact_voxel_remap(source, (4, 5, 6), shifted)
+    assert excinfo.value.code == GeometryErrorCode.INVALID_AFFINE
 
 
 # ---------------------------------------------------------------------------
