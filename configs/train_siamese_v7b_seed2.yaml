@@ -1,0 +1,58 @@
+# VascuTrace P6 v7b SEED-2 -- confirmatory seed replicate of train_siamese_v7b.yaml.
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. Separate from the controlled boundary experiment family.
+# This config is IDENTICAL to train_siamese_v7b.yaml except for the training
+# `seed` (20260716 -> 20260720). val_seed is held fixed so the validation
+# protocol is unchanged. Purpose: test whether v7b's single-seed "no IoU
+# improvement" result reproduces under a different training seed (Medium ->
+# stronger evidence before abandoning the soft-global experiment family). One mechanism:
+# seed only. This config makes no outcome claim and does not authorize a GPU run.
+
+train_cache_dir: data/processed/p6_cache_big_soft/train
+val_cache_dir: data/processed/p6_cache_big_soft/val
+
+seed: 20260720
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: soft_combo
+soft_target: true
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 40
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Carried over unchanged from v5exp/v6exp (anti-saturation / anti-overfit) ---
+augment: true
+augment_rotation_deg: 10.0
+augment_translate_px: 6.0
+augment_scale_delta: 0.10
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+# --- Parsed settings carried over from v6exp -- online hard-negative mining ---
+hard_negative_mining: true
+hard_negative_fraction: 0.35
+hard_negative_oversample_weight: 3.0
+hard_negative_warmup_epochs: 1
+hard_negative_score_momentum: 0.5
+
+model_config: {}
+dataset_config: {}

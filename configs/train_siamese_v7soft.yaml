@@ -1,0 +1,47 @@
+# VascuTrace P6 v7soft -- superseded exploratory ablation based on v5exp.
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. Retained only as an unlaunched ablation.
+# It adds soft supervision to v5exp but does not retain v6exp's HNM block, so
+# it cannot isolate the v7b mechanism against v6. Use v7b for that comparison.
+
+train_cache_dir: data/processed/p6_cache_big_soft/train
+val_cache_dir: data/processed/p6_cache_big_soft/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: soft_combo
+soft_target: true
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 40
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Carried over unchanged from v5exp (anti-saturation / anti-overfit) ---
+augment: true
+augment_rotation_deg: 10.0
+augment_translate_px: 6.0
+augment_scale_delta: 0.10
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+model_config: {}
+dataset_config: {}

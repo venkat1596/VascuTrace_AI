@@ -1,0 +1,29 @@
+# VascuTrace P6 — first 2.5D Siamese PET/CT U-Net training run (RTX 3090).
+# Research prototype. Trained and evaluated using simulated vascular-like
+# abnormalities, not confirmed human post-angioplasty lesions.
+#
+# Cache-only mode: consumes the precomputed synthetic caches (ss=5 accurate).
+# run_root is supplied via the CLI --output-root flag, not here.
+
+train_cache_dir: data/processed/p6_cache/train
+val_cache_dir: data/processed/p6_cache/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+batch_size: 32          # GPU gate: peak ~1.5GB of 25GB at B=32 (memory is not a constraint)
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 60
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 10
+
+# default compact Siamese U-Net (base_channels=16, ~4.17M params)
+model_config: {}
+# dataset_config unused in cache-only mode (samples are precomputed)
+dataset_config: {}

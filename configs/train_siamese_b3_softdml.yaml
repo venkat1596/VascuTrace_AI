@@ -1,0 +1,127 @@
+# VascuTrace Phase 4 B3 -- additive soft-DML term on top of the B2
+# (deep-supervision) base. ONE mechanism changed vs
+# configs/train_siamese_p4b2_deepsup.yaml: source_fraction (train-only
+# simulator geometry, not measured PET activity or a calibrated probability) supplies an ADDITIVE
+# full-resolution soft_combo_loss term (masked soft BCE + soft Dice
+# -semimetric, losses.py module docstring item 5), reused completely
+# unmodified, on top of B2's UNCHANGED hard main + hard deep-sup aux terms:
+#
+#   total = combo(target_mask, logits, valid)                          # B2 main, unchanged
+#         + 0.5 * combo(maxpool(target_mask, 2), aux_logits_2, minpool(valid, 2))
+#         + 0.25 * combo(maxpool(target_mask, 4), aux_logits_4, minpool(valid, 4))
+#                                                                        # B2 deep-sup aux, unchanged
+#         + soft_term_weight * soft_combo_loss(logits, source_fraction, valid)
+#                                                                        # B3 ADDITIVE soft term, FULL-RES ONLY
+#
+# NOT a target replacement (that is the separate, mutually exclusive
+# soft_target=True path -- item 17); NOT edge/boundary-BCE (that is the
+# separate, orthogonal boundary_aux_target path -- item 18); NOT
+# multi-scale soft supervision (deferred to a future "B3.1" -- the soft
+# term here is full-resolution only).
+#
+# The frozen B3 design supersedes an earlier draft that proposed replacing B2's
+# hard aux terms with soft multi-scale ones. This file implements the
+# additive formula only. See the train.py module
+# docstring, item 22, for the full implementation writeup, and
+# docs/algorithms/soft_dml_b3.md for the technical explanation.
+#
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. No sealed-test access, no model
+# promotion, no public/performance claim, no simulator-range change. No
+# IoU-ceiling claim.
+#
+# --- Exact parsed delta vs configs/train_siamese_p4b2_deepsup.yaml -----
+#   train_cache_dir:   data/processed/p6_cache_big/train  -> data/processed/p6_cache_big_soft/train
+#   val_cache_dir:     data/processed/p6_cache_big/val    -> data/processed/p6_cache_big_soft/val
+#   soft_term_enabled: (unset/False)                      -> true
+#   soft_term_weight:  (unset/0.0)                         -> 0.1   [PLACEHOLDER -- see note below]
+# Every other key (seed/val_seed, device/amp, loss=combo, selection_metric,
+# lr_schedule/warmup_steps, batch_size/max_epochs/lr/weight_decay/
+# early_stop_patience/grad_clip_norm/num_workers/log_every_n_steps, the
+# whole augment block, ema_decay, secondary_selection_metric, the whole
+# hard_negative_mining block, model_config/dataset_config, the whole
+# constrained_iou_selection block, and deep_supervision/
+# deep_supervision_scales/deep_supervision_weights) is HELD byte-identical
+# to configs/train_siamese_p4b2_deepsup.yaml. soft_target is NOT set here
+# (stays TrainConfig's own default False) -- __post_init__ would otherwise
+# reject soft_term_enabled=True combined with soft_target=True.
+#
+# soft_term_weight=0.1 below is a PLACEHOLDER, not a claimed-good operating
+# point. Run scripts/b3_grad_balance_probe.py
+# against this run's own train_cache_dir BEFORE a real training run and
+# overwrite this value with that probe's printed beta_star. This file does
+# not, and structurally cannot, run that probe itself.
+
+train_cache_dir: data/processed/p6_cache_big_soft/train
+val_cache_dir: data/processed/p6_cache_big_soft/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: combo
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 150
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Carried over unchanged from v6exp/B2 (anti-saturation / anti-overfit) ---
+augment: true
+augment_rotation_deg: 10.0
+augment_translate_px: 6.0
+augment_scale_delta: 0.10
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+# --- Carried over unchanged from v6exp/B2: online hard-negative mining ---
+# (train.py module docstring, item 16). Requires train_cache_dir (set
+# above) -- the mechanism needs CachedSampleDataset's stable index
+# addressing and known positive/negative split point.
+hard_negative_mining: true
+hard_negative_fraction: 0.35
+hard_negative_oversample_weight: 3.0
+hard_negative_warmup_epochs: 1
+hard_negative_score_momentum: 0.5
+
+model_config: {}
+dataset_config: {}
+
+# --- Track A2: constrained-floor IoU checkpoint selector (path-to-0.70 plan) ---
+# Carried over unchanged from B2 -- so this candidate is judged on its own
+# best legal-IoU epoch, not an early-stop confound.
+constrained_iou_selection: true
+constrained_iou_min_precision: 0.901
+constrained_iou_min_f1: 0.859
+constrained_iou_min_clean: 0.0
+
+# --- Carried over unchanged from B2: deep supervision (train.py module ---
+# docstring, item 21). B3's soft term is ADDITIVE on top of this, not a
+# replacement -- see train.py module docstring, item 21, for the full
+# mechanism.
+deep_supervision: true
+deep_supervision_scales: [2, 4]
+deep_supervision_weights: [0.5, 0.25]
+
+# --- This run's own subject: Phase 4 B3 additive soft-DML term ---
+# (train.py module docstring, item 22; frozen B3 design). soft_target is NOT
+# set (stays default False) -- this is the ADDITIVE path, not the
+# target-replacement path.
+soft_term_enabled: true
+soft_term_weight: 12.6126  # PLACEHOLDER; set beta* from scripts/b3_grad_balance_probe.py before use

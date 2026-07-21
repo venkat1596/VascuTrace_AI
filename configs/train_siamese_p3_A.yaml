@@ -1,0 +1,77 @@
+# VascuTrace P6 boundary experiment, arm A baseline.
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. Part of the frozen A/B/C candidate family.
+# Arm A has the auxiliary off and uses the shipped hard-mask combo_loss
+# path, byte-identical to the earlier hard-combo config. It is the
+# reference for every C-minus-A and B-minus-A contrast
+# against. Runs on the SOFT cache (p6_cache_big_soft) so source_fraction is
+# available for arms B/C to consume from the SAME data identity as this
+# arm -- this arm itself never reads source_fraction (boundary_aux_target:
+# none). loss/soft_target are the HARD combo path (loss: combo,
+# soft_target: false), not v7b's soft_combo/soft_target:true. L_hard is
+# literally combo_loss(logits, target_mask, valid_mask).
+# HNM settings and seeds are carried over unchanged from v6exp/v7b so the
+# A/B/C comparison isolates only the boundary-auxiliary mechanism.
+# This config makes no outcome claim and does not authorize a GPU run.
+
+train_cache_dir: data/processed/p6_cache_big_soft/train
+val_cache_dir: data/processed/p6_cache_big_soft/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: combo
+soft_target: false
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 40
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Carried over unchanged from v5exp/v6exp/v7b (anti-saturation / anti-overfit) ---
+augment: true
+augment_rotation_deg: 10.0
+augment_translate_px: 6.0
+augment_scale_delta: 0.10
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+# --- Parsed settings carried over from v6exp/v7b -- online hard-negative mining ---
+# (train.py module docstring, item 16). These parsed values match v6exp/v7b;
+# cache and split fidelity must also be established before treating the
+# comparison as isolated. This retains v6's capped score-space
+# ranking score; stable logits-space BCE would be a separate mechanism
+# change.
+hard_negative_mining: true
+hard_negative_fraction: 0.35
+hard_negative_oversample_weight: 3.0
+hard_negative_warmup_epochs: 1
+hard_negative_score_momentum: 0.5
+
+# --- the boundary experiment Phase 3 boundary-local auxiliary loss (train.py module docstring, item 18) ---
+# ARM A: aux OFF. lambda_boundary=0.0 is inert regardless of
+# boundary_aux_target, but boundary_aux_target is also explicitly "none"
+# here for clarity -- this arm's train step is byte-identical to the
+# pre-item-18 hard-combo path.
+lambda_boundary: 0.0
+boundary_aux_target: none
+
+model_config: {}
+dataset_config: {}

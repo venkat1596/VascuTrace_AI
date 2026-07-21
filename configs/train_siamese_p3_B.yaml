@@ -1,0 +1,86 @@
+# VascuTrace P6 boundary-auxiliary experiment, arm B.
+# !!! DO NOT TRAIN — E3-S4 HARD STOP (2026-07-19) !!!
+# The outcome-blind lambda probe found NO qualifying lambda in the frozen grid
+# {0.03,0.10,0.30,1.00}: the boundary-aux gradient over-dominates the shared
+# decoder (raw aux:hard p95 ratio ~31-36x; needs lambda~0.014 < grid floor 0.03).
+# Under the frozen protocol, this is a hard stop: do NOT widen the grid or pick lambda from
+# validation, or default to lambda=1. lambda_boundary below is an INERT placeholder.
+# Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.
+#
+# EXPLORATORY -- NOT CERTIFIABLE. Part of the frozen A/B/C candidate family.
+# This file and its sibling (the other boundary_aux_target
+# setting) are byte-identical except the single boundary_aux_target line
+# below. The C-minus-B attribution contrast depends on identical support, weighting,
+# normalization/lambda/topology, differing only in whether the auxiliary
+# target is the hard target_mask or the fractional source_fraction. Runs
+# on the SOFT cache (p6_cache_big_soft) so source_fraction is available.
+# loss/soft_target are the HARD combo path (loss: combo, soft_target:
+# false), not v7b's soft_combo/soft_target:true. L_hard
+# is literally combo_loss(logits, target_mask, valid_mask); the auxiliary
+# is added ON TOP of that unchanged primary objective, scaled by
+# lambda_boundary. HNM settings and seeds are carried over unchanged from
+# v6exp/v7b so the A/B/C comparison isolates only the boundary-auxiliary
+# mechanism. lambda_boundary below is a PLACEHOLDER (0.10) pending the
+# outcome-blind gradient-ratio probe in `scripts/p3_lambda_probe.py`. The operator sets the probe-selected value
+# before any real run. This config makes no outcome claim and does not
+# authorize a GPU run.
+
+train_cache_dir: data/processed/p6_cache_big_soft/train
+val_cache_dir: data/processed/p6_cache_big_soft/val
+
+seed: 20260716
+val_seed: 20260716
+
+device: cuda
+amp: true
+
+loss: combo
+soft_target: false
+selection_metric: dice_x_clean
+lr_schedule: cosine
+warmup_steps: 60
+
+batch_size: 128
+max_epochs: 150
+lr: 0.0005
+weight_decay: 0.0001
+early_stop_patience: 40
+grad_clip_norm: 1.0
+num_workers: 6
+log_every_n_steps: 20
+
+# --- Carried over unchanged from v5exp/v6exp/v7b (anti-saturation / anti-overfit) ---
+augment: true
+augment_rotation_deg: 10.0
+augment_translate_px: 6.0
+augment_scale_delta: 0.10
+augment_pet_gain_delta: 0.10
+augment_pet_bias: 0.05
+augment_ct_gain_delta: 0.10
+augment_ct_bias: 0.05
+
+ema_decay: 0.999
+
+secondary_selection_metric: mean_positive_iou
+
+# --- Parsed settings carried over from v6exp/v7b -- online hard-negative mining ---
+# (train.py module docstring, item 16). These parsed values match v6exp/v7b;
+# cache and split fidelity must also be established before treating the
+# comparison as isolated. This retains v6's capped score-space
+# ranking score; stable logits-space BCE would be a separate mechanism
+# change.
+hard_negative_mining: true
+hard_negative_fraction: 0.35
+hard_negative_oversample_weight: 3.0
+hard_negative_warmup_epochs: 1
+hard_negative_score_momentum: 0.5
+
+# --- the boundary experiment Phase 3 boundary-local auxiliary loss (train.py module docstring, item 18) ---
+# PLACEHOLDER lambda_boundary -- pending the outcome-blind lambda
+# gradient-ratio probe; replace this value with the probe-selected result
+# value with the probe-selected lambda before any real run.
+lambda_boundary: 0.10
+boundary_aux_target: hard
+
+model_config: {}
+dataset_config: {}
