@@ -1,0 +1,189 @@
+{
+  "deterministic_measurements": {
+    "asymmetry_index": 0.9010110290086896,
+    "contralateral_suvmax": 0.8860967755317688,
+    "contralateral_suvmean": 0.8562601208686829,
+    "longitudinal_extent_mm": 16.0,
+    "metabolic_volume_ml": 0.648,
+    "null_reasons": {},
+    "quality_flags": [
+      "partial_volume_risk"
+    ],
+    "target_suvmax": 1.6534085273742676,
+    "target_suvmean": 1.6277599334716797
+  },
+  "development_collaboration": {
+    "evidence_class": "curated public outcomes",
+    "excluded": [
+      "private development instructions and configuration",
+      "prompts and transcripts",
+      "hidden reasoning and creation mechanics",
+      "credentials, workstation state, and private logs"
+    ],
+    "outcomes": [
+      {
+        "outcome": "Performed every project workflow role other than code implementation: planning, primary technical decisions, scientific review, report writing, delivery review, Git and release handling, and humanizer and editorial review. It also authored the plans and instructions used for coding.",
+        "public_evidence": "plans/VascuTrace_Publication_and_Reproducibility_Plan_2026-07-20.md; docs/report/VascuTrace_Technical_Report_2026-07-20.tex; docs/CODEX_COLLABORATION.md; docs/HACKATHON_SUBMISSION.md",
+        "role": "Codex with GPT-5.6"
+      },
+      {
+        "outcome": "Implemented code only, following Codex-authored plans and instructions.",
+        "public_evidence": "app.py; scripts/run_complete_case.py; scripts/run_product_evaluation.py; vascutrace/; tests/",
+        "role": "Claude"
+      },
+      {
+        "outcome": "Retained final authority over product, engineering, scientific, publication, licensing, repository, category, video, and submission decisions.",
+        "public_evidence": "docs/CODEX_COLLABORATION.md; docs/HACKATHON_SUBMISSION.md",
+        "role": "Project owner"
+      }
+    ],
+    "separate_from_product_runtime": true
+  },
+  "evidence_binding": {
+    "figures": [
+      "docs/report/figures/09_generated_product_case.png",
+      "docs/report/figures/10_verified_product_output.png",
+      "docs/report/figures/11_collaboration_evidence.png"
+    ],
+    "receipt": "docs/report/evidence/product_demo_receipt.json"
+  },
+  "evidence_class": "generated deterministic product execution",
+  "evidence_date": "2026-07-21",
+  "evidence_id": "DEMO-001",
+  "execution": {
+    "array_generator": {
+      "pet_increment_suv": 0.76,
+      "rule": "A fixed 0.76 SUV increment is added inside the fixed binary source mask."
+    },
+    "backends": {
+      "detection": "reference",
+      "evidence": "keyword",
+      "report": "template"
+    },
+    "case_id": "synthetic_iliac_seed_182",
+    "case_type": "synthetic",
+    "research_only": true,
+    "stored_nominal_fixture_metadata": {
+      "length_mm": {
+        "used_by_array_generator": false,
+        "value": 16.0
+      },
+      "radius_mm": {
+        "used_by_array_generator": false,
+        "value": 5.0
+      },
+      "seed": {
+        "used_by_array_generator": false,
+        "value": 182
+      },
+      "side": "right",
+      "uptake_multiplier": {
+        "applied_by_array_generator": false,
+        "value": 1.6
+      }
+    },
+    "synthetic": true
+  },
+  "finding": {
+    "abnormality_score": 0.91,
+    "laterality": "right",
+    "target_region": "iliac_proximal_femoral_corridor"
+  },
+  "generated_views": [
+    {
+      "name": "pet",
+      "sha256": "0feec17ad12f9478e220dc166f13484829cde89aa8cbb1f5e65e89d07891a1f1",
+      "source_file": "pet.png"
+    },
+    {
+      "name": "ct",
+      "sha256": "c02a2956a78c52b0b6782b0d3c45c7d10b8cf72942dc5b48e00cef6b59cd2f4b",
+      "source_file": "ct.png"
+    },
+    {
+      "name": "fused",
+      "sha256": "ceb995bee68818c68bc8fbedacf50ee8ae4bbf9205828eb48a5b023c1cc0edbd",
+      "source_file": "fused.png"
+    },
+    {
+      "name": "overlay",
+      "sha256": "724f5fe3ad1ecbf9036b8a1549779aa4a58e59604ea33f24295aec3b0409c1d5",
+      "source_file": "overlay.png"
+    },
+    {
+      "name": "bilateral",
+      "sha256": "de73a9be337e4d20979c8c2e6b544cdf79461e6efb0de8cf40a7310d13fa33cd",
+      "source_file": "bilateral.png"
+    }
+  ],
+  "interpretation_limits": [
+    "This execution validates default product integration and safeguards.",
+    "It is not a detector benchmark or a native-space 3D evaluation.",
+    "It does not support diagnosis or any clinical performance claim."
+  ],
+  "measurement_scope": "Default reference-backend values are deterministic integration-fixture conventions, not physical-space 3D scientific measurements.",
+  "ordered_runtime_trace": [
+    "load_case",
+    "run_vascular_detection",
+    "calculate_pet_metrics",
+    "generate_research_report",
+    "verify_report"
+  ],
+  "product_evaluation": {
+    "all_passed": true,
+    "cases": [
+      {
+        "category": "schema",
+        "detail": "Model output and report satisfy strict versioned schemas.",
+        "name": "strict_contracts",
+        "passed": true
+      },
+      {
+        "category": "numeric_fidelity",
+        "detail": "All report measurements exactly match deterministic source metrics.",
+        "name": "measurement_preservation",
+        "passed": true
+      },
+      {
+        "category": "claim_safety",
+        "detail": "Verifier rejects an injected diagnostic claim.",
+        "name": "unsafe_claim_rejection",
+        "passed": true
+      },
+      {
+        "category": "cache_isolation",
+        "detail": "Repeated case-specific measurement queries bypass the cache.",
+        "name": "case_cache_bypass",
+        "passed": true
+      },
+      {
+        "category": "service_failure",
+        "detail": "Missing metrics artifact produces an explicit service failure.",
+        "name": "missing_artifact_failure",
+        "passed": true
+      },
+      {
+        "category": "trace",
+        "detail": "Trace contains every required checkpoint tool in order.",
+        "name": "complete_tool_trace",
+        "passed": true
+      }
+    ],
+    "failed": 0,
+    "passed": 6,
+    "suite_version": "1.0"
+  },
+  "report_verification": {
+    "accepted": true,
+    "issues": []
+  },
+  "sanitization": {
+    "model_weights_used": false,
+    "network_or_api_used": false,
+    "patient_or_raw_medical_input_used": false,
+    "runtime_durations_removed": true,
+    "temporary_paths_removed": true
+  },
+  "schema_version": "1.0",
+  "scientific_warning": "Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions."
+}

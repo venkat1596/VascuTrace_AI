@@ -1,21 +1,66 @@
-# --- Claude Code multi-agent harness (local-only, never push) ---
-.claude/
+# Local development-assistant configuration and runtime state are private.
+/.codex/
+/.agents/
+/.claude/
+/.grok/
+/.codex-local/
+/claude-harness/
+/codex-harness/
+/grok-harness/
+AGENTS.md
+LOOP.md
+loop-budget.md
+loop-constraints.md
 CLAUDE.md
 MEMORY.md
 *.claude-log.md
-# The harness source repo is cloned in-tree and has its own git remote.
-claude-harness/
-# --- end harness ---
+*.codex-session.jsonl
+*.session-transcript.*
 
-# --- Secrets — API keys live here and must never be committed ---
+# Only reviewed public report and plan artifacts are eligible for tracking.
+/docs/*
+!/docs/CODEX_COLLABORATION.md
+!/docs/HACKATHON_SUBMISSION.md
+!/docs/report/
+!/docs/report/**
+/plans/*
+!/plans/VascuTrace_Publication_and_Reproducibility_Plan_2026-07-20.md
+/bugs/
+/knowledge/rag_index/
+
+# Secrets
 .env
 .env.*
+.env~*
 !.env.example
+.envrc*
+.git-credentials*
+.direnv/
 .secrets/
-*.pem
-*.key
+auth.json*
+accesstokens.json*
+credentials.json*
+application_default_credentials.json*
+azureauth.json*
+client_secret.json*
+client_secrets.json*
+google-credentials.json*
+msal_token_cache.json*
+secret.json*
+secrets.json*
+service-account.json*
+service_account.json*
+token.json*
+rclone.conf*
+.netrc*
+.npmrc*
+.pypirc*
+id_rsa*
+id_ed25519*
+*.pem*
+*.key*
 
-# --- Python ---
+# Python
 __pycache__/
 *.py[cod]
 *.so
@@ -28,16 +73,18 @@ dist/
 .mypy_cache/
 .ipynb_checkpoints/
 
-# --- Virtual environments (uv) ---
+# Virtual environments
 .venv/
 venv/
-# uv.lock IS committed on purpose — it pins the exact dependency set.
+# uv.lock IS committed on purpose; it pins the exact dependency set.
 
-# --- Data — never push datasets ---
-data/
-datasets/
-raw/
-processed/
+# Datasets and generated data
+/Data/
+/data/
+/datasets/
+/raw/
+/processed/
+*.crdownload
 # Medical / volumetric imaging
 *.nii
 *.nii.gz
@@ -64,13 +111,13 @@ processed/
 *.tgz
 *.7z
 
-# --- Model weights & checkpoints — never push ---
+# Model weights and checkpoints
 checkpoints/
 ckpt/
 ckpts/
 weights/
 pretrained/
-# NOTE: models/ is deliberately NOT ignored — it usually holds model *code*.
+# NOTE: models/ is deliberately NOT ignored; it usually holds model *code*.
 #       Weight files placed inside it are caught by the extensions below.
 *.pt
 *.pth
@@ -84,7 +131,8 @@ pretrained/
 *.pickle
 *.joblib
 
-# --- Experiment tracking / run outputs ---
+# Experiment tracking and run outputs
+artifacts/
 runs/
 outputs/
 wandb/
@@ -93,8 +141,13 @@ lightning_logs/
 tensorboard/
 events.out.tfevents.*
 *.log
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
 
-# --- OS / editor ---
+# OS and editor files
 .DS_Store
 Thumbs.db
 .vscode/

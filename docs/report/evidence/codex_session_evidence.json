@@ -1,0 +1,524 @@
+{
+  "aggregates": {
+    "assistant_updates": 725,
+    "bounded_review_activities": 629,
+    "compactions": 38,
+    "mcp_tool_calls": 6,
+    "observed_span_hours_sum": 123.76,
+    "patch_events": 654,
+    "recorded_model_contexts": 107,
+    "session_count": 11,
+    "source_records_at_cutoff": 28258,
+    "tasks": 69,
+    "tasks_completed": 60,
+    "tool_calls": 5654,
+    "user_turns": 87,
+    "web_searches": 77
+  },
+  "cutoff_utc": "2026-07-21T14:56:53.784Z",
+  "evidence_scope": "Sanitized development-process metadata and event counts. Event volume is not a quality or scientific-performance metric.",
+  "excluded_source_lanes": [
+    "message bodies and transcripts",
+    "hidden reasoning and summaries",
+    "system and developer text",
+    "prompts and private instructions",
+    "tool arguments and tool results",
+    "credentials and workstation state",
+    "absolute source paths"
+  ],
+  "primary_session_id": "019f6187-81f0-7db1-b5c1-d9cdbba313dc",
+  "privacy_method": "The builder reads only allowlisted metadata fields and structural event types through the fixed cutoff. Raw conversation text and private development material remain local.",
+  "schema_version": 1,
+  "session_count": 11,
+  "sessions": [
+    {
+      "counts": {
+        "assistant_updates": 12,
+        "bounded_review_activities": 11,
+        "compactions": 1,
+        "patch_events": 0,
+        "tasks": 1,
+        "tool_calls": 50,
+        "user_turns": 2,
+        "web_searches": 17
+      },
+      "end_utc": "2026-07-13T17:43:57.611000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 1
+      },
+      "observed_span_hours": 1.11,
+      "primary": false,
+      "public_outcomes": [
+        "Architecture and implementation inventory: README.md; plans/VascuTrace_Publication_and_Reproducibility_Plan_2026-07-20.md",
+        "Versioned imaging and product contracts: src/vascutrace/data/contract.py; vascutrace/contracts.py",
+        "Research demonstrator: app.py; vascutrace/orchestrator.py; scripts/run_complete_case.py"
+      ],
+      "recorded_cli_version": "0.144.3",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 2
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f5c4e-1f8d-7190-8a04-2c6f7e7a2e18",
+      "source_records_at_cutoff": 349,
+      "start_utc": "2026-07-13T16:37:07.807000Z",
+      "task_themes": [
+        "Translate the initial specification into a two-track PET/CT architecture with fixed interfaces.",
+        "Define Codex-led planning, reporting, Git stewardship, and competition alignment.",
+        "Keep private development-support material outside the public release."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 72,
+        "bounded_review_activities": 83,
+        "compactions": 7,
+        "patch_events": 309,
+        "tasks": 4,
+        "tool_calls": 994,
+        "user_turns": 8,
+        "web_searches": 25
+      },
+      "end_utc": "2026-07-14T10:02:46.052000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 2
+      },
+      "observed_span_hours": 16.21,
+      "primary": false,
+      "public_outcomes": [
+        "Publication and verification gates: plans/VascuTrace_Publication_and_Reproducibility_Plan_2026-07-20.md",
+        "Privacy-safe collaboration record: docs/CODEX_COLLABORATION.md",
+        "Release safeguards: .gitignore; .github/workflows/ci.yml"
+      ],
+      "recorded_cli_version": "0.144.3",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 11
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f5c9a-0be0-7351-b9c1-9d7b342d8108",
+      "source_records_at_cutoff": 5060,
+      "start_utc": "2026-07-13T17:50:27.621000Z",
+      "task_themes": [
+        "Develop a Codex-led seven-day plan with scientific, product, evaluation, and submission gates.",
+        "Establish bounded planning and review workflows across imaging, ML, product, testing, and documentation.",
+        "Keep development-support material separate from the VascuTrace release."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 31,
+        "bounded_review_activities": 21,
+        "compactions": 1,
+        "patch_events": 8,
+        "tasks": 4,
+        "tool_calls": 156,
+        "user_turns": 6,
+        "web_searches": 2
+      },
+      "end_utc": "2026-07-14T12:40:21.357000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 4
+      },
+      "observed_span_hours": 2.5,
+      "primary": false,
+      "public_outcomes": [
+        "Reproducible EDA entry point: scripts/eda_quadra.py",
+        "Aggregate cohort evidence: docs/report/figures/01_cohort_eda.png; docs/report/figures/02_test_retest_summary.png",
+        "Plain-language project summary: README.md"
+      ],
+      "recorded_cli_version": "0.144.3",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 5
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f6015-b646-70b3-ab11-6d5b20d9eeee",
+      "source_records_at_cutoff": 826,
+      "start_utc": "2026-07-14T10:10:08.688000Z",
+      "task_themes": [
+        "Perform local EDA from imaging, ML, mathematical, and statistical perspectives.",
+        "Explain plots, inputs, outputs, and project value in plain language.",
+        "Prepare Phase 1 and workstation resource planning before experiments."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 45,
+        "bounded_review_activities": 24,
+        "compactions": 1,
+        "patch_events": 10,
+        "tasks": 4,
+        "tool_calls": 204,
+        "user_turns": 6,
+        "web_searches": 3
+      },
+      "end_utc": "2026-07-14T16:29:04.836000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 2
+      },
+      "observed_span_hours": 3.3,
+      "primary": false,
+      "public_outcomes": [
+        "Affine-aware PET-grid geometry: src/vascutrace/geometry.py; tests/test_geometry.py",
+        "Strict ingestion and bilateral crops: src/vascutrace/data/ingest.py; src/vascutrace/data/split.py; src/vascutrace/data/crops.py",
+        "Geometry report evidence: docs/report/figures/03_geometry_and_resampling.png; docs/report/VascuTrace_Technical_Report_2026-07-20.tex"
+      ],
+      "recorded_cli_version": "0.144.3",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 5
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f60c0-ba06-77f0-be21-37da29651799",
+      "source_records_at_cutoff": 1066,
+      "start_utc": "2026-07-14T13:11:12.424000Z",
+      "task_themes": [
+        "Define an acceptance-first Phase 1 foundation for provenance, geometry, QA, splitting, and resources.",
+        "Complete EDA and investigate label provenance and licensing.",
+        "Synchronize Git safely while preserving remote work."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 147,
+        "bounded_review_activities": 160,
+        "compactions": 6,
+        "patch_events": 92,
+        "tasks": 8,
+        "tool_calls": 1224,
+        "user_turns": 10,
+        "web_searches": 0
+      },
+      "end_utc": "2026-07-15T05:29:37.917000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 8
+      },
+      "observed_span_hours": 12.68,
+      "primary": true,
+      "public_outcomes": [
+        "Physical-grid geometry: src/vascutrace/geometry.py; tests/test_geometry.py",
+        "Bilateral crop and data contracts: src/vascutrace/data/crops.py; src/vascutrace/data/contract.py",
+        "Geometry-to-model synthesis: docs/report/VascuTrace_Technical_Report_2026-07-20.tex"
+      ],
+      "recorded_cli_version": "0.144.2",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 14
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex_vscode",
+      "recorded_surfaces": [
+        "vscode"
+      ],
+      "session_id": "019f6187-81f0-7db1-b5c1-d9cdbba313dc",
+      "source_records_at_cutoff": 5939,
+      "start_utc": "2026-07-14T16:48:42.862000Z",
+      "task_themes": [
+        "Reconcile the specification, EDA, and product workplan after resuming from Git.",
+        "Expose execution plans and assess 2D and 2.5D U-Net readiness.",
+        "Approve and progress Phase 1 geometry delivery and reconstruction.",
+        "Diagnose geometry and verification failures caused by candidate or worktree state."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 59,
+        "bounded_review_activities": 60,
+        "compactions": 2,
+        "patch_events": 29,
+        "tasks": 7,
+        "tool_calls": 461,
+        "user_turns": 9,
+        "web_searches": 0
+      },
+      "end_utc": "2026-07-15T20:07:47.158000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 6
+      },
+      "observed_span_hours": 5.9,
+      "primary": false,
+      "public_outcomes": [
+        "Recovered geometry foundation: src/vascutrace/geometry.py; tests/test_geometry.py",
+        "Executable Phase 2 data pipeline: scripts/run_p2_pipeline.py; src/vascutrace/data/ingest.py; src/vascutrace/data/crops.py",
+        "Siamese model and training path: src/vascutrace/ml/model.py; src/vascutrace/ml/train.py; configs/train_siamese_v1.yaml"
+      ],
+      "recorded_cli_version": "0.144.3",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 9
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f661f-b909-7a22-b165-7d5c8e5da35f",
+      "source_records_at_cutoff": 2169,
+      "start_utc": "2026-07-15T14:13:42.936000Z",
+      "task_themes": [
+        "Report the concrete status and contents of Phase 1.",
+        "Continue geometry recovery under bounded approvals.",
+        "Move from the imaging foundation toward model implementation and training."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 23,
+        "bounded_review_activities": 9,
+        "compactions": 2,
+        "patch_events": 13,
+        "tasks": 4,
+        "tool_calls": 151,
+        "user_turns": 4,
+        "web_searches": 0
+      },
+      "end_utc": "2026-07-16T01:22:55.638000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 4
+      },
+      "observed_span_hours": 4.99,
+      "primary": false,
+      "public_outcomes": [
+        "Controlled source simulation: src/vascutrace/simulation/anomaly.py; tests/test_simulation.py",
+        "Deterministic 3D quantification: src/vascutrace/quantification/measure.py; tests/test_quantification.py",
+        "Training and evaluation: src/vascutrace/ml/train.py; src/vascutrace/ml/evaluate.py; tests/test_ml_evaluate.py"
+      ],
+      "recorded_cli_version": "0.144.4",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 6
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f6773-1bc8-73d2-9a39-b7ade344260f",
+      "source_records_at_cutoff": 767,
+      "start_utc": "2026-07-15T20:23:48.833000Z",
+      "task_themes": [
+        "Resolve remaining Phase 1 binding and completion blockers.",
+        "Produce an all-phases implementation handoff with explicit quality requirements.",
+        "Define end-to-end requirements and tests needed for reliable training."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 6,
+        "bounded_review_activities": 3,
+        "compactions": 0,
+        "patch_events": 0,
+        "tasks": 1,
+        "tool_calls": 46,
+        "user_turns": 1,
+        "web_searches": 5
+      },
+      "end_utc": "2026-07-16T16:56:43.155000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 1
+      },
+      "observed_span_hours": 0.21,
+      "primary": false,
+      "public_outcomes": [
+        "Failure-specific evaluation: src/vascutrace/ml/evaluate.py; src/vascutrace/ml/metrics.py; tests/test_ml_evaluate.py",
+        "Reproducible model configuration: configs/train_siamese_v4_big.yaml",
+        "Mechanism-specific activation probe: scripts/fp_cnr_gate_probe.py"
+      ],
+      "recorded_cli_version": "0.144.2",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 1
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex_vscode",
+      "recorded_surfaces": [
+        "vscode"
+      ],
+      "session_id": "019f6bd0-46c4-7121-bf6d-88481daf4566",
+      "source_records_at_cutoff": 250,
+      "start_utc": "2026-07-16T16:44:00.672000Z",
+      "task_themes": [
+        "Assess whether the reported IoU was near a defensible maximum.",
+        "Evaluate whether higher IoU could coexist with strong precision and F1.",
+        "Ground improvement work in literature and failure-specific evaluation."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 91,
+        "bounded_review_activities": 91,
+        "compactions": 7,
+        "patch_events": 17,
+        "tasks": 18,
+        "tool_calls": 501,
+        "user_turns": 21,
+        "web_searches": 17
+      },
+      "end_utc": "2026-07-17T23:28:33.007000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 17
+      },
+      "observed_span_hours": 24.52,
+      "primary": false,
+      "public_outcomes": [
+        "Restored public data-pipeline source: src/vascutrace/data/contract.py; src/vascutrace/data/crops.py; src/vascutrace/data/ingest.py",
+        "Boundary and soft-target losses: src/vascutrace/ml/losses.py; tests/test_ml_boundary_aux.py; tests/test_ml_b3_soft_term.py",
+        "Outcome-blind mechanism probe: scripts/p3_lambda_probe.py"
+      ],
+      "recorded_cli_version": "0.144.4",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 25
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f6d22-f305-7ca0-86ae-20e1ac55dba6",
+      "source_records_at_cutoff": 2830,
+      "start_utc": "2026-07-16T22:57:24.654000Z",
+      "task_themes": [
+        "Falsify unsupported IoU-ceiling claims and correct statistical and reproducibility defects.",
+        "Resolve source-package and path-validation blockers while retaining Codex Git stewardship.",
+        "Design a bounded soft-target experiment without universal-ceiling claims.",
+        "Separate exploratory science from certification and compute logistics."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 113,
+        "bounded_review_activities": 54,
+        "compactions": 5,
+        "patch_events": 91,
+        "tasks": 10,
+        "tool_calls": 827,
+        "user_turns": 10,
+        "web_searches": 0
+      },
+      "end_utc": "2026-07-19T17:47:26.076000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 0,
+        "tasks_completed": 9
+      },
+      "observed_span_hours": 36.78,
+      "primary": false,
+      "public_outcomes": [
+        "Next-model configurations: configs/train_siamese_v7b.yaml; configs/train_siamese_v7soft.yaml",
+        "Config-gated training and evaluation: src/vascutrace/ml/losses.py; src/vascutrace/ml/train.py; src/vascutrace/ml/evaluate.py",
+        "Operating-point coverage: src/vascutrace/ml/metrics.py; tests/test_operating_point_knobs.py"
+      ],
+      "recorded_cli_version": "0.144.5",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 15
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f7398-2350-79d0-a657-fca01373af04",
+      "source_records_at_cutoff": 3996,
+      "start_utc": "2026-07-18T05:00:24.812000Z",
+      "task_themes": [
+        "Integrate reviewed planning, source-restoration, and validation repairs.",
+        "Analyze overlap, detection, and negative-clean tradeoffs in later models.",
+        "Develop the next training and component-filter strategy with tests.",
+        "Prepare public code while excluding weights and data."
+      ]
+    },
+    {
+      "counts": {
+        "assistant_updates": 126,
+        "bounded_review_activities": 113,
+        "compactions": 6,
+        "patch_events": 85,
+        "tasks": 8,
+        "tool_calls": 1040,
+        "user_turns": 10,
+        "web_searches": 8
+      },
+      "end_utc": "2026-07-21T14:56:53.784000Z",
+      "instrumentation_counts": {
+        "mcp_tool_calls": 6,
+        "tasks_completed": 6
+      },
+      "observed_span_hours": 15.56,
+      "primary": false,
+      "public_outcomes": [
+        "Technical report: docs/report/VascuTrace_Technical_Report_2026-07-20.tex; docs/report/VascuTrace_Technical_Report_2026-07-20.pdf",
+        "Codex collaboration chronology: docs/CODEX_COLLABORATION.md",
+        "Competition and judge-test guide: docs/HACKATHON_SUBMISSION.md"
+      ],
+      "recorded_cli_version": "0.144.5",
+      "recorded_model_context_counts": {
+        "gpt-5.6-sol": 14
+      },
+      "recorded_model_identifiers": [
+        "gpt-5.6-sol"
+      ],
+      "recorded_model_provider": "openai",
+      "recorded_originator": "codex-tui",
+      "recorded_surfaces": [
+        "cli"
+      ],
+      "session_id": "019f81d0-b3be-7e21-a19a-491a13e360e8",
+      "source_records_at_cutoff": 5006,
+      "start_utc": "2026-07-20T23:23:20.891000Z",
+      "task_themes": [
+        "Produce a professional EDA-to-pipeline report with figures and independent checks.",
+        "Include product GenAI code while excluding private development material, weights, and large data.",
+        "Document Codex collaboration, competition, video, repository, and judge-test requirements.",
+        "Add sanitized details for the primary and supporting root sessions."
+      ]
+    }
+  ],
+  "workspace_name": "VascuTrace_AI"
+}

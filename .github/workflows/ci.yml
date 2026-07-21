@@ -37,4 +37,4 @@ jobs:
         run: uv run ruff format --check .
 
       - name: Tests
-        run: uv run pytest -q
+        run: uv run pytest -q -m "not local_data and not gpu"
