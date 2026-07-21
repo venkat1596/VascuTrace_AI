@@ -10,6 +10,11 @@ patient benefit.
 
 The detailed technical report is available at
 [docs/report/VascuTrace_Technical_Report_2026-07-20.pdf](docs/report/VascuTrace_Technical_Report_2026-07-20.pdf).
+It includes aggregate EDA, method schematics, actual generated product views,
+the verified five-tool runtime trace, all six product checks, corrected
+development-collaboration evidence, and a sanitized analysis of 11 root Codex
+sessions. No patient image or model weight is used in the report evidence
+build.
 
 ## Current implementation
 
@@ -81,6 +86,12 @@ uv run python -m scripts.run_product_evaluation
 uv run python -m scripts.run_complete_case
 ```
 
+Rebuild the generated-only product receipt and report figures 09 through 11:
+
+```bash
+uv run python docs/report/scripts/build_product_evidence.py
+```
+
 Run the MCP server over standard input and output:
 
 ```bash
@@ -108,29 +119,32 @@ locally before enabling RAG because generated indices are not versioned.
 
 ## Collaboration with Codex
 
-Codex with GPT-5.6 served as the main planner, report writer, Git handler, and
-primary technical decision maker within the VascuTrace development workflow.
-Codex translated the research goals into bounded engineering plans, coordinated
-implementation and independent checks, assembled the technical report, reviewed
-evidence and scientific claims, and prepared the repository and submission
-documentation for release review. This accelerated requirement tracing,
-integration review, verification, report production, and release preparation
-without assigning final authority to a software tool.
+Codex with GPT-5.6 performed every non-coding workflow role in the VascuTrace
+development process. This included planning and architecture, primary technical
+decisions, scientific review, report writing, delivery review, Git and release
+handling, and humanizer and editorial review. Codex also authored the plans and
+instructions used for code implementation. Claude was used only to implement
+that planned code. The project owner retained final authority over all product,
+scientific, publication, licensing, repository, category, video, and submission
+decisions.
 
-Claude was used only to implement code from Codex-authored plans. The project
-owner retained the final product, engineering, scientific, publication,
-licensing, repository visibility, competition category, video, and submission
-decisions, including approval or rejection of proposed plans and results. The
-project record documents Codex's role through the Codex-authored initial
-specification, the broader planning archive, the public publication plan, and
-the technical report sources under `docs/report/`.
+The public evidence projection covers 11 root Codex sessions through
+`2026-07-21T14:56:53.784Z`. Their metadata records `gpt-5.6-sol` in all 11
+sessions. The projection contains 87 user turns, 725 assistant updates, 69
+started tasks, 60 completed tasks, 5,654 tool-call events, 654 patch events,
+629 bounded review activities, 77 web searches, and 38 context compactions.
+These are structural event counts, not measures of quality, labor time, or
+scientific performance.
 
 VascuTrace product GenAI prompts are shipped application code. Private
 development-agent artifacts are excluded from the public release. The
-[curated collaboration record](docs/CODEX_COLLABORATION.md) documents the
-public decision and evidence trail, and the
+[session-based collaboration record](docs/CODEX_COLLABORATION.md) documents the
+public decision and evidence trail, links the sanitized
+[session receipt](docs/report/evidence/codex_session_evidence.json), and shows
+the collaboration, timeline, and activity figures. The
 [hackathon submission guide](docs/HACKATHON_SUBMISSION.md) collects the
 description, demonstration, testing, and owner-completed submission fields.
+The selected competition category is `Work, Life and Productivity`.
 
 ## Scientific status and limitations
 

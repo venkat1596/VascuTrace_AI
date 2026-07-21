@@ -6,7 +6,7 @@ Date: 2026-07-20
 
 ## Purpose
 
-This plan defines the public path from the current research prototype to a reproducible methods package. It covers the technical report, aggregate evidence, code verification, scientific acceptance gates, and a sanitized development-branch release. It contains no private development configuration, prompt, runtime log, or model weight.
+This plan defines the public path from the current research prototype to a reproducible methods package. It covers the technical report, aggregate evidence, code verification, scientific acceptance gates, sanitized Codex session evidence, and a development-branch release. It contains no private development configuration, prompt, raw transcript, hidden reasoning, raw session file, or model weight.
 
 ## Publication package
 
@@ -15,7 +15,7 @@ The release package should contain:
 1. The installable VascuTrace source and product orchestration code.
 2. Generated-fixture tests, CPU and offline regression tests, and clearly marked optional data or GPU tests.
 3. Public configuration files required to reproduce model architecture and intended training settings.
-4. The technical report source, bibliography, machine-readable aggregate evidence ledger, generated figure script, eight publication figures, and compiled PDF.
+4. The technical report source, bibliography, machine-readable aggregate evidence ledger, generated-only product receipt, sanitized Codex session receipt, three figure builders, thirteen publication figures, and compiled PDF.
 5. Public algorithm notes and this project-facing plan.
 6. A README that distinguishes the deterministic reference fixture from the optional learned backend.
 
@@ -36,8 +36,18 @@ Each report result belongs to one class:
 - Current implementation observation, tied to reviewed code.
 - Design decision, stated as a rule rather than a result.
 - Planned evaluation, stated in future tense.
+- Sanitized development-process evidence, tied to a fixed session cutoff and a
+  field-limited public receipt.
 
 The aggregate evidence ledger records the population, independent unit, value, units, status, source hash, and limitation for every public number used in a figure.
+
+The session receipt records 11 root sessions through
+`2026-07-21T14:56:53.784Z`. All eleven record model identifier `gpt-5.6-sol`.
+The aggregate structural counts are 87 user turns, 725 assistant updates, 69
+started tasks, 60 completed tasks, 5,654 tool calls, 654 patch events, 629
+bounded review activities, 77 web searches, and 38 context compactions. These
+counts are development-process evidence, not quality, labor-time, productivity,
+or scientific-performance measures.
 
 ## Gate 1: dataset provenance and data fitness
 
@@ -115,6 +125,13 @@ The report build sequence is:
 
 ```bash
 python3 docs/report/scripts/build_report_figures.py
+python3 docs/report/scripts/build_product_evidence.py
+python3 docs/report/scripts/build_codex_session_evidence.py \
+  --session-root "$VASCUTRACE_CODEX_SESSION_INPUT" \
+  --output-root docs/report \
+  --cutoff 2026-07-21T14:56:53.784Z \
+  --workspace-name VascuTrace_AI \
+  --report-layout
 cd docs/report
 pdflatex -interaction=nonstopmode -halt-on-error VascuTrace_Technical_Report_2026-07-20.tex
 bibtex VascuTrace_Technical_Report_2026-07-20
@@ -122,15 +139,23 @@ pdflatex -interaction=nonstopmode -halt-on-error VascuTrace_Technical_Report_202
 pdflatex -interaction=nonstopmode -halt-on-error VascuTrace_Technical_Report_2026-07-20.tex
 ```
 
+Before the session-evidence command runs, the reviewer sets
+`VASCUTRACE_CODEX_SESSION_INPUT` to the approved local Codex session root. The
+value is not written to the receipt, documentation, figures, or Git.
+
 Acceptance requires:
 
-- Eight readable figures generated only from aggregate values or synthetic schematics.
+- Thirteen readable figures: eight aggregate or schematic figures, three generated-only product and collaboration figures, and two sanitized Codex session figures.
 - Complete references with no undefined citation or cross-reference.
 - No missing graphic or material overfull box.
 - Embedded fonts and readable PDF metadata.
 - Exact warning text present.
 - No Unicode em dash or literal triple-hyphen artifact in source or extracted PDF text.
-- No unfinished drafting marker, private development reference, identifier, or local absolute path.
+- No unfinished drafting marker, private development reference, patient identifier, or local absolute path.
+- Session evidence contains exactly the eleven allowlisted root IDs, the fixed
+  cutoff, and receipt-matching counts, with no raw message, hidden reasoning,
+  system or developer text, private prompt, tool argument or result, credential,
+  workstation state, or absolute source path.
 - Independent scientific, numeric-fidelity, citation, editorial, and full-page visual checks.
 
 ## Gate 8: software verification
@@ -158,6 +183,8 @@ Build the release from an explicit file manifest. Review every candidate text fi
 - contaminated retrieval material;
 - files larger than 25 MB;
 - prohibited scientific wording.
+- raw Codex JSONL, transcript content, private development-agent material, or
+  any session field outside the public allowlist.
 
 The development branch may be rewritten to a reviewed no-parent public snapshot if that is required to make excluded material unreachable from the branch. The release report should state only what can be proven: excluded material is no longer reachable from the published development branch. It should not claim immediate physical destruction of unreachable objects on the hosting service.
 
@@ -178,4 +205,4 @@ The development branch may be rewritten to a reviewed no-parent public snapshot 
 
 ## Completion definition
 
-The publication is complete when the PDF and source agree, the eight figures are readable, evidence is traceable, scientific boundaries are intact, software checks pass, the public manifest contains only approved artifacts, the sanitized development branch is pushed with its exact commit recorded, and a post-push scan confirms the remote branch tree and reachable history.
+The publication is complete when the PDF and source agree, all thirteen figures are readable, evidence is traceable, scientific boundaries are intact, software checks pass, the public manifest contains only approved artifacts, the sanitized development branch is pushed with its exact commit recorded, and a post-push scan confirms the remote branch tree and reachable history.

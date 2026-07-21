@@ -34,7 +34,7 @@
   citecolor=VTBlue,
   urlcolor=VTBlue,
   pdftitle={VascuTrace: From Exploratory Data Analysis to an End-to-End PET/CT Research Pipeline},
-  pdfauthor={Venkat Sumanth Reddy Bommireddy},
+  pdfauthor={Venkat Sumanth Reddy Bommireddy; Prashanth Reddy Biyyani; Sukeshwar Bogundula; SAI Deeraj Bogundula},
   pdfsubject={Research prototype technical report},
   pdfkeywords={FDG PET/CT, synthetic source, detectability, Siamese U-Net, deterministic quantification}
 }
@@ -42,7 +42,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{VascuTrace Technical Report}
-\rhead{20 July 2026}
+\rhead{Revised 21 July 2026}
 \cfoot{\thepage}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.55em}
@@ -50,6 +50,9 @@
 \setlist[enumerate]{leftmargin=1.55em,itemsep=0.25em,topsep=0.35em}
 \captionsetup{font=small,labelfont=bf}
 \renewcommand{\arraystretch}{1.18}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{B}[1]{>{\raggedright\arraybackslash\bfseries}p{#1}}
 \raggedbottom
 
 \newcommand{\warningtext}{Research prototype. Trained and evaluated using simulated vascular-like abnormalities, not confirmed human post-angioplasty lesions.}
@@ -77,9 +80,13 @@
 \vfill
 {\large Prepared by\par}
 \vspace{0.15cm}
-{\Large\bfseries Venkat Sumanth Reddy Bommireddy\par}
+{\large\bfseries Venkat Sumanth Reddy Bommireddy\par}
+{\large\bfseries Prashanth Reddy Biyyani\par}
+{\large\bfseries Sukeshwar Bogundula\par}
+{\large\bfseries SAI Deeraj Bogundula\par}
 \vspace{0.3cm}
-{\large 20 July 2026\par}
+{\large Issued 20 July 2026\par}
+{\large Revised 21 July 2026\par}
 
 \vfill
 \begin{minipage}{0.88\textwidth}
@@ -91,9 +98,11 @@
 \pagenumbering{roman}
 \section*{Document status and reading guide}
 
+The original issue date is 20 July 2026. This revision is dated 21 July 2026 and includes generated product evidence executed on 21 July 2026, corrected collaboration ownership, and sanitized development-process evidence from 11 root Codex sessions.
+
 This report separates five kinds of statements. A \emph{source fact} comes from a cited public primary source. A \emph{historical aggregate measurement} comes from a prior project receipt or analysis artifact and was not rerun against raw volumes during this publication turn. A \emph{current implementation observation} describes the code reviewed for this report. A \emph{design decision} states an intended interface or rule. A \emph{planned evaluation} is work that has not yet produced a result. These categories are used because a technically complete software path and a scientifically complete evaluation are not the same thing.
 
-The machine-readable evidence ledger accompanies this report. It contains aggregate values, source classes, hashes of evidence inputs, limitations, and figure provenance. It contains no case row, identifier, medical image, credential, model weight, or local absolute path.
+The machine-readable evidence ledger accompanies this report. It contains aggregate values, source classes, hashes of evidence inputs, limitations, and figure provenance. Separate generated-product and sanitized Codex session receipts support the executed demonstration and development-process sections. No public receipt contains a patient-derived case row, medical image, credential, model weight, raw conversation, hidden reasoning, or local absolute path.
 
 \begin{center}
 \fcolorbox{VTRed}{red!4}{\parbox{0.93\textwidth}{\centering\warningtext}}
@@ -124,6 +133,10 @@ The principal model evidence is exploratory validation. The cache held 208 cente
 Descriptive stratification shows why a detectability atlas is more informative than one aggregate overlap value. Mean IoU by radius tertile was 0.461, 0.687, and 0.697. By uptake tertile it was 0.500, 0.718, and 0.627, so the pattern was not monotonic. By blur tertile it was 0.707, 0.623, and 0.515. On negative slices, activation rose from 16.1\% in the low raw-PET texture-proxy stratum to 62.1\% in the high stratum. The texture quantity is derived from the background and must not be described as simulated acquisition noise. Confirmatory clustered inference was not completed for these descriptive strata.
 
 The codebase contains substantial components, but four gaps prevent a promotion claim. First, the crop reflection does not match the intended iliac-only, arc-length-paired method. Second, the threshold baseline lacks the full frozen negative-scan and physical component-volume contract. Third, the current evaluator is center-slice based and does not perform native-space 3D stitching, 26-connected intersection matching, or the planned 5,000-replicate subject-cluster bootstrap. Fourth, the product demonstration does not yet call the complete 3D quantifier. The default product backend is a deterministic reference path that returns a known synthetic mask and fixed score; the optional learned path processes one selected cached validation slice.
+
+A fresh generated-only product execution now accompanies the aggregate report evidence. It produced the five dashboard views, preserved exact deterministic measurements in an accepted structured report, emitted the ordered five-tool trace, and passed all six product checks with zero failures. These results validate the default integration path and tested safeguards only. The displayed volume and extent are fixture conventions rather than physical-space 3D measurements.
+
+Development evidence is recorded separately. Codex with GPT-5.6 performed every non-coding workflow role: planning and architecture, primary technical decisions, scientific review, report writing, delivery review, Git and release handling, and humanizer and editorial review. It also authored the plans and instructions used for code implementation. Claude implemented code only. The owner retained final authority. A sanitized receipt covers 11 root Codex sessions through 21 July 2026 and records \texttt{gpt-5.6-sol} in every session. Its event counts describe workflow activity, not quality, labor time, or scientific performance.
 
 The immediate scientific priority is contract closure: correct reflection geometry, promotion-compliant baseline evaluation, native-space 3D reconstruction, sealed subject-level testing, full quantification-error evaluation, and a publication-safe retrieval index rebuilt from public sources. Until those steps are complete, the strongest defensible statement is that VascuTrace is an implemented research prototype with exploratory center-slice detectability evidence and explicit, testable remaining work.
 
@@ -190,7 +203,7 @@ Planned evaluation & Prespecified work without completed evidence & Use future t
 
 \subsection{Publication-safe evidence preparation}
 
-The report uses only aggregate tables, public primary sources, current public product code, and generated schematics. Raw volumes, headers, identifiers, per-case rows, case screenshots, model weights, caches, and run outputs were excluded. Every public figure was generated from the aggregate evidence ledger or from a fully synthetic schematic. This publication turn did not reopen the medical images.
+The report uses aggregate tables, public primary sources, current public product code, generated schematics, one reproducible generated-only product receipt, and one sanitized Codex session receipt. Raw volumes, headers, identifiers, patient-derived case rows, patient screenshots, model weights, caches, raw development sessions, and private development material were excluded. Figures 1 through 8 were generated from the aggregate evidence ledger or from fully synthetic schematics. Figures 9 through 11 were generated by executing the default synthetic product path and rendering public product and collaboration outcomes. Figures 12 and 13 were generated only from allowlisted fields in the sanitized session receipt. This publication turn did not reopen the medical images.
 
 The ledger records the SHA-256 hashes of the historical source artifacts. Those hashes bind the reported aggregates to fixed inputs even though the source artifacts are not reproduced in this report. The ledger also records the population, independent unit, units, evidence status, and limitation for each number used in a figure.
 
@@ -558,7 +571,7 @@ A valid retrieval evaluation must begin after the public corpus is frozen. It sh
 
 \subsection{Stage-by-stage status}
 
-\begin{longtable}{>{\bfseries}p{0.14\textwidth} p{0.24\textwidth} p{0.24\textwidth} p{0.21\textwidth}}
+\begin{longtable}{B{0.14\textwidth} L{0.24\textwidth} L{0.24\textwidth} L{0.21\textwidth}}
 \caption{Pipeline implementation status. The unit is a software or evaluation stage. Evidence comes from current code and historical aggregate receipts; no row implies clinical readiness.}\label{tab:pipeline-status}\\
 \toprule
 Stage & Current evidence & Main gap & Completion test \\
@@ -579,17 +592,221 @@ UI and export & Research demonstrator and artifact views & Single-slice learned 
 \bottomrule
 \end{longtable}
 
+\section{Executed product and collaboration evidence}
+
+\subsection{Reproducible generated-only execution}
+
+The report evidence builder executes the default product path in a temporary directory. Detection uses the \texttt{reference} backend. Reporting uses \texttt{template}, and evidence uses \texttt{keyword}. The builder runs the complete synthetic-case command, materializes the five display views used by the dashboard, verifies the structured report, and runs the six-case product evaluation. It removes temporary paths and runtime durations before writing \path{docs/report/evidence/product_demo_receipt.json}. The receipt and Figures~\ref{fig:generated-product-case}--\ref{fig:collaboration-evidence} are bound to evidence record \evidenceid{DEMO-001}. The execution makes no dataset read, model-weight read, network request, or API call.
+
+The executed fixture was \texttt{synthetic\_iliac\_seed\_182}. Its metadata stores the label right, radius 5.0 mm, axial length 16.0 mm, uptake multiplier 1.6, and seed 182. These values are nominal fixture labels, not generation controls or measurements from a person. The current deterministic array generator does not use the stored seed, radius, or length and does not apply the stored uptake multiplier. It uses a fixed binary source mask and adds a fixed 0.76 SUV increment inside that mask. Figure~\ref{fig:generated-product-case} presents the actual PNG output of the product view generator rather than a conceptual diagram.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.99\textwidth]{figures/09_generated_product_case.png}
+\caption{Actual generated VascuTrace product views. Evidence ID: \evidenceid{DEMO-001}. Population: one deterministic synthetic integration fixture, not a patient or a patient-derived image. The source arrays have shape $16 \times 64 \times 64$; the displayed middle-slice PET, CT, fusion, and overlay views are $64 \times 64$ pixels, and the bilateral view is $64 \times 66$ pixels including its separator. The bright right-sided region and red overlay show the simulated source. Radius, length, multiplier, and seed are stored nominal metadata; the generator uses a fixed mask and a fixed 0.76 SUV increment. The panels validate image production and UI inputs only. They do not establish anatomical realism, physical geometry, detector performance, or clinical behavior.}
+\label{fig:generated-product-case}
+\end{figure}
+
+\subsection{Deterministic values and report verification}
+
+Table~\ref{tab:executed-fixture} copies the stored JSON values from the generated receipt. The report verifier accepted the structured report with zero issues, and the report measurements were identical to the deterministic metric object. The fixed reference backend reported right laterality and an uncalibrated \scoreterm{} of 0.91. Its known target mask is intentionally used to exercise product wiring. This execution is not a model benchmark.
+
+\begin{table}[H]
+\centering
+\caption{Executed default-path values copied from the structured receipt. Population: one generated synthetic integration fixture. Unit: SUV, mL, mm, or unitless as shown. Limitation: these are integration-fixture conventions, not physical-space 3D scientific measurements.}
+\label{tab:executed-fixture}
+\begin{tabularx}{\textwidth}{B{0.30\textwidth} Y L{0.18\textwidth}}
+\toprule
+Field & Stored JSON value & Unit or status \\
+\midrule
+Target SUVmax & 1.6534085273742676 & SUV \\
+Target SUVmean & 1.6277599334716797 & SUV \\
+Contralateral SUVmax & 0.8860967755317688 & SUV \\
+Contralateral SUVmean & 0.8562601208686829 & SUV \\
+Asymmetry index & 0.9010110290086896 & Unitless \\
+Nominal metabolic volume & 0.648 & mL convention \\
+Nominal longitudinal extent & 16.0 & mm convention \\
+Report verification & Accepted; zero issues & Deterministic check \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The two geometric-looking values require special care. The reference path calculates nominal volume as positive-mask voxel count divided by 1,000 and nominal extent as the number of occupied axial planes multiplied by 2 mm. The contralateral region is an array-axis reflection. Those rules are stable integration conventions, but they do not use the full physical-coordinate 3D quantifier, the subject-specific reflection plane, or curve-following centerline distance. The completed straight-axis quantifier itself reports projected extent, not curved centerline arc length. The new evidence therefore preserves both the projected-extent correction and the fixture-metric validity boundary.
+
+\subsection{Observed runtime trace and product checks}
+
+The runtime trace contained exactly the five tools shown in Figure~\ref{fig:verified-product-output}, in that order. This trace shows that code-owned measurements are produced before report generation and are checked afterward. It is a product execution trace, not a development-agent transcript or a hidden reasoning record.
+
+The product evaluation passed all six checks and failed none. Table~\ref{tab:product-checks} states what each check established in this run.
+
+\begin{table}[H]
+\centering
+\caption{Fresh default-path product evaluation. Population: six deterministic software checks over generated fixtures. Unit: check. Passing these checks establishes the listed integration safeguards only.}
+\label{tab:product-checks}
+\begin{tabularx}{\textwidth}{B{0.24\textwidth} L{0.16\textwidth} Y}
+\toprule
+Check & Outcome & Observable result \\
+\midrule
+Strict contracts & Pass & Model output and report satisfied strict versioned schemas. \\
+Measurement preservation & Pass & Every report measurement exactly matched the deterministic source metric object. \\
+Unsafe claim rejection & Pass & The verifier rejected an injected diagnostic claim. \\
+Case-cache bypass & Pass & Repeated case-specific measurement queries bypassed the semantic cache. \\
+Missing-artifact failure & Pass & A missing metrics artifact produced an explicit service failure. \\
+Complete tool trace & Pass & Every required checkpoint tool appeared in the expected order. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.94\textwidth]{figures/10_verified_product_output.png}
+\caption{Verified default-path product execution rendered from the generated receipt. Evidence ID: \evidenceid{DEMO-001}. The top panel shows report acceptance and literal JSON values. The middle panel shows the ordered five-tool trace. The lower panel shows the six passed checks and their observed outcomes. The nominal volume and extent remain fixture conventions. No value in this figure is generated or rewritten by a language model.}
+\label{fig:verified-product-output}
+\end{figure}
+\clearpage
+
+\subsection{Development collaboration evidence}
+
+Development collaboration is a separate evidence class from the VascuTrace product runtime. Codex with GPT-5.6 performed every non-coding workflow role. It owned planning and architecture, primary technical decisions, scientific review, report writing, delivery review, Git and release handling, and humanizer and editorial review. Codex also authored the plans and instructions used for code implementation. Claude implemented code only, following those instructions. The owner retained final product, engineering, scientific, publication, licensing, repository, category, video, and submission authority.
+
+Figure~\ref{fig:collaboration-evidence} makes this ownership explicit. Scientific review, delivery review, and humanizer review were Codex with GPT-5.6 workstreams. They were not Claude coding responsibilities and were not performed by the shipped VascuTrace runtime agents. The publication plan, report source, collaboration record, and submission guide provide the public non-coding evidence. The dashboard, commands, runtime package, and tests provide public examples of the code implementation.
+
+\clearpage
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.94\textwidth]{figures/11_collaboration_evidence.png}
+\caption[Development collaboration evidence.]{Development-collaboration ownership and public artifact links. Evidence ID: \evidenceid{DEMO-001}. Codex with GPT-5.6 performed every non-coding workflow role, including planning, primary technical decisions, scientific review, report writing, delivery review, Git and release handling, and humanizer and editorial review. It also authored the plans and instructions used for coding. Claude implemented code only. The owner retained final authority. These roles are separate from the VascuTrace product runtime. No private instruction, prompt, configuration, transcript, hidden reasoning, creation mechanism, subagent identifier, or raw log is reproduced.}
+\label{fig:collaboration-evidence}
+\end{figure}
+\clearpage
+
+\subsection{Codex root session evidence}
+
+Evidence record \evidenceid{SESSION-001} is a sanitized projection of 11 allowlisted root Codex sessions. The inclusive cutoff is \texttt{2026-07-21T14:56:53.784Z}. Every session records provider \texttt{openai} and model identifier \texttt{gpt-5.6-sol}. The projection reads allowlisted metadata and structural event types. It does not publish message bodies, transcripts, hidden reasoning, system or developer text, private prompts or instructions, tool arguments or results, credentials, workstation state, absolute source paths, or raw JSONL files.
+
+Table~\ref{tab:codex-session-inventory} records the complete root-session inventory. Times are UTC and are copied from the sanitized receipt.
+
+\begingroup
+\scriptsize
+\begin{longtable}{B{0.06\textwidth} L{0.31\textwidth} L{0.28\textwidth} L{0.09\textwidth} L{0.14\textwidth}}
+\caption{Allowlisted Codex root-session inventory. Population: 11 root sessions through the fixed cutoff. Unit: root session.}\label{tab:codex-session-inventory}\\
+\toprule
+Ref & Root Session ID & UTC evidence window & Surface & Model \\
+\midrule
+\endfirsthead
+\toprule
+Ref & Root Session ID & UTC evidence window & Surface & Model \\
+\midrule
+\endhead
+S01 & \path{019f5c4e-1f8d-7190-8a04-2c6f7e7a2e18} & 13 Jul 16:37:07 to 17:43:57 & CLI & \texttt{gpt-5.6-sol} \\
+S02 & \path{019f5c9a-0be0-7351-b9c1-9d7b342d8108} & 13 Jul 17:50:27 to 14 Jul 10:02:46 & CLI & \texttt{gpt-5.6-sol} \\
+S03 & \path{019f6015-b646-70b3-ab11-6d5b20d9eeee} & 14 Jul 10:10:08 to 12:40:21 & CLI & \texttt{gpt-5.6-sol} \\
+S04 & \path{019f60c0-ba06-77f0-be21-37da29651799} & 14 Jul 13:11:12 to 16:29:04 & CLI & \texttt{gpt-5.6-sol} \\
+S05, primary & \path{019f6187-81f0-7db1-b5c1-d9cdbba313dc} & 14 Jul 16:48:42 to 15 Jul 05:29:37 & VS Code & \texttt{gpt-5.6-sol} \\
+S06 & \path{019f661f-b909-7a22-b165-7d5c8e5da35f} & 15 Jul 14:13:42 to 20:07:47 & CLI & \texttt{gpt-5.6-sol} \\
+S07 & \path{019f6773-1bc8-73d2-9a39-b7ade344260f} & 15 Jul 20:23:48 to 16 Jul 01:22:55 & CLI & \texttt{gpt-5.6-sol} \\
+S08 & \path{019f6bd0-46c4-7121-bf6d-88481daf4566} & 16 Jul 16:44:00 to 16:56:43 & VS Code & \texttt{gpt-5.6-sol} \\
+S09 & \path{019f6d22-f305-7ca0-86ae-20e1ac55dba6} & 16 Jul 22:57:24 to 17 Jul 23:28:33 & CLI & \texttt{gpt-5.6-sol} \\
+S10 & \path{019f7398-2350-79d0-a657-fca01373af04} & 18 Jul 05:00:24 to 19 Jul 17:47:26 & CLI & \texttt{gpt-5.6-sol} \\
+S11 & \path{019f81d0-b3be-7e21-a19a-491a13e360e8} & 20 Jul 23:23:20 to 21 Jul 14:56:53 & CLI & \texttt{gpt-5.6-sol} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The primary Session ID is \path{019f6187-81f0-7db1-b5c1-d9cdbba313dc}. It spans the main transition from specification and EDA reconciliation through Phase 1 geometry delivery and model-readiness review. It has the largest tool-call count, assistant-update count, and bounded-review count in the allowlisted set: 1,224, 147, and 160. All eight recorded tasks completed. S02 has the largest patch count and S09 has the largest task count. Primary selection therefore reflects the thread's central foundation-to-ML role and combined activity, not one universal ranking. The primary-thread \texttt{/feedback} action remains an owner submission step.
+
+The aggregate receipt records 28,258 source records at the cutoff, 87 user turns, 725 assistant updates, 69 tasks started, 60 tasks completed, 5,654 tool calls, 654 patch events, 629 bounded review activities, 77 web searches, 38 context compactions, 107 model-context records, six MCP tool calls, and a 123.76-hour sum of observed session spans. The span is the difference between each session's first and last allowlisted record. Spans can include idle time or overlap and are not labor time.
+
+Table~\ref{tab:codex-session-activity} reproduces the main per-session counts. User and assistant counts are structural root-session events without copied text. Task counts come from task lifecycle events. Tool calls, patches, bounded review activity, completed searches, and compactions are structural categories. Event volume is not a measure of quality, labor time, productivity, authorship effort, or scientific performance.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Sanitized per-session development activity. Population: the 11 allowlisted root sessions. Unit: structural event. Done/Start is completed tasks divided by started tasks; Web/C is completed web searches divided by context compactions.}
+\label{tab:codex-session-activity}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrr}
+\toprule
+Ref & User & Updates & Done/Start & Tools & Patch & Review & Web/C \\
+\midrule
+S01 & 2 & 12 & 1/1 & 50 & 0 & 11 & 17/1 \\
+S02 & 8 & 72 & 2/4 & 994 & 309 & 83 & 25/7 \\
+S03 & 6 & 31 & 4/4 & 156 & 8 & 21 & 2/1 \\
+S04 & 6 & 45 & 2/4 & 204 & 10 & 24 & 3/1 \\
+S05, primary & 10 & 147 & 8/8 & 1,224 & 92 & 160 & 0/6 \\
+S06 & 9 & 59 & 6/7 & 461 & 29 & 60 & 0/2 \\
+S07 & 4 & 23 & 4/4 & 151 & 13 & 9 & 0/2 \\
+S08 & 1 & 6 & 1/1 & 46 & 0 & 3 & 5/0 \\
+S09 & 21 & 91 & 17/18 & 501 & 17 & 91 & 17/7 \\
+S10 & 10 & 113 & 9/10 & 827 & 91 & 54 & 0/5 \\
+S11 & 10 & 126 & 6/8 & 1,040 & 85 & 113 & 8/6 \\
+\midrule
+Total & 87 & 725 & 60/69 & 5,654 & 654 & 629 & 77/38 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+Table~\ref{tab:codex-session-outcomes} connects one receipt theme and one reviewable public outcome to every root session. The full receipt contains additional sanitized themes and outcomes.
+
+\begingroup
+\footnotesize
+\begin{longtable}{B{0.07\textwidth} L{0.40\textwidth} L{0.43\textwidth}}
+\caption{Session task themes and public artifact outcomes copied from \evidenceid{SESSION-001}. The unit is one root session.}\label{tab:codex-session-outcomes}\\
+\toprule
+Ref & Main task theme & Representative public outcome \\
+\midrule
+\endfirsthead
+\toprule
+Ref & Main task theme & Representative public outcome \\
+\midrule
+\endhead
+S01 & Translate the initial specification into a two-track PET/CT architecture with fixed interfaces. & Architecture and implementation inventory in \path{README.md} and the publication plan. \\
+S02 & Develop a Codex-led seven-day plan with scientific, product, evaluation, and submission gates. & Publication and verification gates in the public publication plan. \\
+S03 & Perform local EDA from imaging, ML, mathematical, and statistical perspectives. & Reproducible EDA entry point in \path{scripts/eda_quadra.py}. \\
+S04 & Define an acceptance-first Phase 1 foundation for provenance, geometry, QA, splitting, and resources. & Affine-aware PET-grid geometry in \path{src/vascutrace/geometry.py} and \path{tests/test_geometry.py}. \\
+S05, primary & Reconcile the specification, EDA, and product workplan after resuming from Git. & Physical-grid geometry in \path{src/vascutrace/geometry.py} and \path{tests/test_geometry.py}. \\
+S06 & Report the concrete status and contents of Phase 1. & Executable Phase 2 data pipeline in \path{scripts/run_p2_pipeline.py} and the public data package. \\
+S07 & Resolve remaining Phase 1 binding and completion blockers. & Controlled source simulation in \path{src/vascutrace/simulation/anomaly.py} and \path{tests/test_simulation.py}. \\
+S08 & Assess whether the reported IoU was near a defensible maximum. & Failure-specific evaluation in \path{src/vascutrace/ml/evaluate.py}, \path{src/vascutrace/ml/metrics.py}, and associated tests. \\
+S09 & Falsify unsupported IoU-ceiling claims and correct statistical and reproducibility defects. & Boundary and soft-target losses in \path{src/vascutrace/ml/losses.py} and associated tests. \\
+S10 & Integrate reviewed planning, source-restoration, and validation repairs. & Config-gated training and evaluation in the public ML package. \\
+S11 & Produce a professional EDA-to-pipeline report with figures and independent checks. & This technical report, the collaboration record, and the hackathon submission guide. \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\clearpage
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.99\textwidth]{figures/12_codex_session_timeline.png}
+\caption[Codex root-session timeline.]{Codex root-session timeline and task themes. Evidence ID: \evidenceid{SESSION-001}. Population: 11 allowlisted root sessions through the fixed cutoff. Unit: root session and UTC evidence window. S05 is the primary thread. The themes are sanitized receipt fields, not transcript excerpts. This is development-process evidence, not product runtime or scientific-performance evidence.}
+\label{fig:codex-session-timeline}
+\end{figure}
+\clearpage
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.99\textwidth]{figures/13_codex_session_activity.png}
+\caption[Codex root-session activity counts.]{Allowlisted Codex root-session activity counts. Evidence ID: \evidenceid{SESSION-001}. Population: 11 root sessions through the fixed cutoff. Unit: structural event. Values reproduce the sanitized receipt. Event volume documents workflow activity and is not a quality, labor-time, productivity, authorship-effort, or scientific-performance metric.}
+\label{fig:codex-session-activity}
+\end{figure}
+\clearpage
+
+\subsection{Interpretation boundary for the executed example}
+
+The executed evidence validates that the generated default case can traverse the public product interfaces, preserve measurements in a structured report, reject the tested unsafe claim, isolate case-specific cache queries, fail explicitly on one missing artifact, and emit the complete expected trace. It does not evaluate the learned detector, native-space 3D stitching, physical-space quantification, retrieval quality, scanner behavior, or any clinical endpoint. The generated views are useful demonstration inputs, not examples of confirmed human post-angioplasty abnormalities.
+
 \section{Reproducibility, privacy, and safeguards}
 
 \subsection{Software environment}
 
 The project targets Python 3.13 and uses \texttt{uv} for the locked environment, Ruff for linting and formatting, and pytest for automated tests. Core dependencies include NumPy, SciPy, NiBabel, SimpleITK, PyTorch, Pydantic, MCP, and Streamlit. CPU and offline tests use generated non-patient fixtures. Dataset and GPU tests are marked separately.
 
-The figure builder reads only the aggregate JSON ledger and writes eight PNG files. It does not read the dataset, caches, or weights. The report build uses \texttt{pdflatex}, BibTeX, and two final LaTeX passes. The expected commands are listed in Appendix~\ref{app:commands}.
+The aggregate figure builder reads only the aggregate JSON ledger and writes figures 1 through 8. The product-evidence builder executes generated fixtures in a temporary directory, writes a sanitized JSON receipt, and writes figures 9 through 11. The Codex session-evidence builder reads only the allowlisted structural fields through the fixed cutoff and writes the sanitized receipt and figures 12 and 13. It does not serialize raw messages or local source paths. None of these builders reads medical data or model weights. The report build uses \texttt{pdflatex}, BibTeX, and two final LaTeX passes. The expected commands are listed in Appendix~\ref{app:commands}.
 
 \subsection{Data separation}
 
-Raw medical volumes, subject identifiers, session manifests, per-case results, model weights, and run outputs remain local and outside the publication snapshot. The PDF uses no medical slice. Figure captions identify each population and independent unit without exposing a subject or file name. The retrieval index is also excluded because its earlier corpus was not publication-safe.
+Raw medical volumes, subject identifiers, and session manifests remain outside the publication snapshot. Patient-derived per-case results, model weights, and local run outputs are also excluded. The PDF uses no patient or raw medical slice. Its product-view panels come only from the generated default fixture. Figure captions identify each population and independent unit without exposing a subject or workstation path. The retrieval index is also excluded because its earlier corpus was not publication-safe.
 
 \subsection{Determinism and provenance}
 
@@ -681,7 +898,7 @@ The current evidence is deliberately narrower than the implementation inventory.
 
 The complete machine-readable ledger is distributed with the report. Table~\ref{tab:ledger-selected} lists the entries most directly tied to the conclusions.
 
-\begin{longtable}{>{\ttfamily}p{0.12\textwidth} p{0.19\textwidth} p{0.24\textwidth} p{0.24\textwidth}}
+\begin{longtable}{>{\ttfamily\raggedright\arraybackslash}p{0.13\textwidth} L{0.18\textwidth} L{0.24\textwidth} L{0.24\textwidth}}
 \caption{Selected evidence ledger entries. The unit is an evidence record. No row contains case-level data.}\label{tab:ledger-selected}\\
 \toprule
 ID & Evidence class & Main content & Limitation \\
@@ -699,24 +916,28 @@ SIM-001 & Current implementation observation & Source equation, factors, normali
 MODEL-002 & Historical exploratory validation & B2 positive overlap, IoU, component metrics, and negative activation & Seven-cluster center-slice validation only \\
 ATLAS-001 & Historical descriptive stratification & Radius, uptake, blur, and two-factor IoU summaries & Small repeated cells; no unclustered inference \\
 ATLAS-002 & Historical descriptive stratification & Activation by raw-PET texture-proxy stratum & Proxy is not simulated acquisition noise \\
+DEMO-001 & Current generated execution and role summary & Bound product receipt, Figures 9 through 11, structured values, report acceptance, ordered trace, six software checks, and corrected collaboration ownership & Nominal metadata and fixed 0.76 SUV array rule; not physical-space 3D or learned-model evidence \\
+SESSION-001 & Sanitized development-process evidence & Eleven root Session IDs, fixed cutoff, recorded model identifiers, structural counts, task themes, public outcomes, and Figures 12 and 13 & Event volume is not quality, labor-time, productivity, authorship-effort, or scientific-performance evidence \\
 \bottomrule
 \end{longtable}
 
 \section{Report and software verification commands}
 \label{app:commands}
 
-The following commands define the publication build and the project-level checks expected before release. A command should be reported as passed only after a fresh run with an exit code of zero.
+The following commands define the publication build and the project-level checks expected before release. A command should be reported as passed only after a fresh run with an exit code of zero. Before building session evidence, \texttt{VASCUTRACE\_CODEX\_SESSION\_INPUT} must point to the approved local Codex session root. Its value is not stored in the public output.
 
 \begin{table}[H]
 \centering
 \footnotesize
 \caption{Publication command matrix. The unit is one command. Dataset and GPU tests remain separate because the default suite must be offline and generated-fixture based.}
-\begin{tabularx}{\textwidth}{>{\bfseries}p{0.25\textwidth} X}
+\begin{tabularx}{\textwidth}{B{0.25\textwidth} Y}
 \toprule
 Purpose & Command \\
 \midrule
 Environment setup & \texttt{uv sync -{}-locked} \\
 Build figures & \texttt{uv run python docs/report/scripts/build\_report\_figures.py} \\
+Build product evidence & \texttt{uv run python docs/report/scripts/build\_product\_evidence.py} \\
+Build session evidence & \texttt{uv run python docs/report/scripts/build\_codex\_session\_evidence.py -{}-session-root "\$VASCUTRACE\_CODEX\_SESSION\_INPUT" -{}-output-root docs/report -{}-cutoff 2026-07-21T14:56:53.784Z -{}-workspace-name VascuTrace\_AI -{}-report-layout} \\
 First LaTeX pass & \texttt{cd docs/report \&\& pdflatex -interaction=nonstopmode -halt-on-error} \path{VascuTrace_Technical_Report_2026-07-20.tex} \\
 Bibliography & \texttt{cd docs/report \&\& bibtex} \path{VascuTrace_Technical_Report_2026-07-20} \\
 Second LaTeX pass & \texttt{cd docs/report \&\& pdflatex -interaction=nonstopmode -halt-on-error} \path{VascuTrace_Technical_Report_2026-07-20.tex} \\
@@ -735,7 +956,7 @@ Offline tests & \texttt{uv run pytest -q -m \textquotesingle{}not local\_data an
 \begin{table}[H]
 \centering
 \caption{Approved report vocabulary. The unit is a phrase or claim type.}
-\begin{tabularx}{\textwidth}{>{\bfseries}p{0.24\textwidth} X X}
+\begin{tabularx}{\textwidth}{B{0.24\textwidth} Y Y}
 \toprule
 Concept & Use & Do not infer \\
 \midrule

@@ -9,6 +9,12 @@ from pathlib import Path
 from vascutrace.orchestrator import run_first_checkpoint
 
 
+SCIENTIFIC_WARNING = (
+    "Research prototype. Trained and evaluated using simulated vascular-like "
+    "abnormalities, not confirmed human post-angioplasty lesions."
+)
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -29,15 +35,19 @@ def run_complete_case(output_root: Path | str = "outputs/complete_case") -> Path
     report_json = case_dir / "report.json"
     report_md = case_dir / "report.md"
     trace_json = case_dir / "trace.json"
-    report_json.write_text(json.dumps(payload["report"], indent=2) + "\n")
-    report = payload["report"]
+    report = dict(payload["report"])
+    report["limitations"] = [*report["limitations"], SCIENTIFIC_WARNING]
+    report_json.write_text(json.dumps(report, indent=2) + "\n")
     metrics = report["quantitative_measurements"]
+    markdown_limitations = [
+        item for item in report["limitations"] if item != SCIENTIFIC_WARNING
+    ]
     report_md.write_text(
         "\n".join(
             [
                 "# VascuTrace synthetic research report",
                 "",
-                "**RESEARCH ONLY — NOT FOR CLINICAL USE**",
+                f"**{SCIENTIFIC_WARNING}**",
                 "",
                 f"Laterality: {report['finding']['laterality']}",
                 f"Target SUVmax: {_format_measurement(metrics['target_suvmax'])}",
@@ -48,7 +58,7 @@ def run_complete_case(output_root: Path | str = "outputs/complete_case") -> Path
                 report["interpretation"],
                 "",
                 "## Limitations",
-                *[f"- {item}" for item in report["limitations"]],
+                *[f"- {item}" for item in markdown_limitations],
                 "",
             ]
         ),

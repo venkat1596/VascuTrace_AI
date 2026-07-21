@@ -32,9 +32,15 @@ def test_experiment_orchestrator_is_traced(tmp_path: Path) -> None:
 
 
 def test_one_command_pipeline_writes_verified_manifest(tmp_path: Path) -> None:
+    warning = (
+        "Research prototype. Trained and evaluated using simulated vascular-like "
+        "abnormalities, not confirmed human post-angioplasty lesions."
+    )
     manifest_path = run_complete_case(tmp_path)
     manifest = json.loads(manifest_path.read_text())
     case_dir = manifest_path.parent
+    report = json.loads((case_dir / "report.json").read_text())
+    report_markdown = (case_dir / "report.md").read_text()
 
     assert manifest["verification"]["accepted"]
     assert manifest["research_only"] is True
@@ -48,3 +54,6 @@ def test_one_command_pipeline_writes_verified_manifest(tmp_path: Path) -> None:
     } <= names
     assert all(len(artifact["sha256"]) == 64 for artifact in manifest["artifacts"])
     assert (case_dir / "report.md").is_file()
+    assert warning in report["limitations"]
+    assert warning in report_markdown
+    assert "\N{EM DASH}" not in report_markdown
